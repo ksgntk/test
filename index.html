@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChibakitaLittleSenior41</title>
+    <title>41期生 試合結果アーカイブ</title>
     
     <!-- Google Fonts: Noto Sans JP -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +22,7 @@
                 extend: {
                     colors: {
                         team: {
-                            navy: '#09294f',  // ベースカラー（公式戦など）
+                            navy: '#09294f',  // ベースカラー
                             red: '#9c3327',   // アクセント（負け、強調）
                             gold: '#b99c56',  // アクセント（勝ち、準公式戦）
                             gray: '#4f4c4c',  // テキスト、OP戦
@@ -84,13 +85,13 @@
 
     <!-- Header -->
     <header class="bg-team-navy text-white shadow-lg sticky top-0 z-40">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
             <div>
-                <h1 class="text-xl md:text-2xl font-bold tracking-wider">
+                <h1 class="text-base sm:text-lg md:text-2xl font-bold tracking-tight md:tracking-wider leading-tight">
                     <i class="fa-solid fa-baseball-bat-ball text-team-gold mr-2"></i>
-                    千葉北シニア41期生 試合結果アーカイブ
+                    GAME ARCHIVE
                 </h1>
-                <p class="text-xs text-gray-300 mt-1">2年間の軌跡 全150試合の記録</p>
+                <p class="text-[10px] md:text-xs text-gray-300 mt-1">千葉北リトルシニア41期(2023.4～2025.11)</p>
             </div>
         </div>
     </header>
@@ -146,7 +147,7 @@
     <div id="gameModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
         <div class="bg-white w-full max-w-4xl rounded-lg shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]" id="modalContent">
             
-            <!-- Modal Header (青帯部分) -->
+            <!-- Modal Header -->
             <div class="bg-team-navy text-white px-6 py-4 flex justify-between items-start shrink-0">
                 <div>
                     <p id="modalDate" class="text-sm opacity-80 mb-1"></p>
@@ -172,173 +173,3240 @@
 
     <!-- JavaScript logic -->
     <script>
-        /**
-         * モックデータ
-         * Notionエクスポートのパス構造に合わせて images を設定しています。
-         * フォルダ名はMarkdownファイル名(拡張子なし)と一致し、スペースは%20に置換します。
-         */
+        // ▼▼▼ Pythonスクリプトがこの変数を書き換えます ▼▼▼
         const gamesData = [
-            {
-                id: "game005",
-                date: "2025/11/29 12:00",
-                opponent: "松戸中央B",
-                venue: "千葉北SG",
-                tournament: "41st_OP戦",
-                gameName: "OP戦①",
-                type: "OP戦",
-                result: "win",
-                isMyTeamFirst: false, // 後攻
-                myScore: 4,
-                oppScore: 7,
-                pitchers: "41田村, 41福田",
-                players: "41井上, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41酒井, 41金子, 41飯島, 41飯田",
-                videoUrl: "https://youtu.be/KOEazV2EKkc",
-                photoUrl: null,
-                inningsHtml: `
-                    <table class="score-board">
-                        <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>R</th></tr></thead>
-                        <tbody>
-                            <tr><td>千葉北</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr>
-                            <tr><td>松戸中央</td><td>0</td><td>3</td><td>1</td><td>0</td><td>2</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>7</strong></td></tr>
-                        </tbody>
-                    </table>
-                `,
-                // ID部分を削除しました
-                images: ["20251129vs松戸中央B①@千葉北SG/ScoreBook_Placeholder.jpeg"]
-            },
-            {
-                id: "game004",
-                date: "2025/11/08 11:30",
-                opponent: "八千代中央",
-                venue: "長生の森野球場",
-                tournament: "41st_OP戦",
-                gameName: "OP戦②",
-                type: "OP戦",
-                result: "win", 
-                isMyTeamFirst: true, // 先攻
-                myScore: 6,
-                oppScore: 1,
-                pitchers: "41飯田",
-                players: "41井上, 41出口, 41山内, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
-                videoUrl: null,
-                photoUrl: null,
-                inningsHtml: `
-                    <table class="score-board">
-                         <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>R</th></tr></thead>
-                        <tbody>
-                            <tr><td>千葉北</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>1</td><td>0</td><td>0</td><td><strong>6</strong></td></tr>
-                            <tr><td>八千代中央</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>×</td><td><strong>1</strong></td></tr>
-                        </tbody>
-                    </table>
-                `,
-                // ID部分を削除しました
-                images: ["20251108vs八千代中央②@長生の森野球場/IMG_2914.jpeg"]
-            },
-            {
-                id: "game003",
-                date: "2025/11/08 09:00", 
-                opponent: "八千代中央",
-                venue: "長生の森野球場",
-                tournament: "41st_OP戦",
-                gameName: "OP戦①",
-                type: "OP戦",
-                result: "win",
-                isMyTeamFirst: false, // 後攻
-                myScore: 5,
-                oppScore: 3,
-                pitchers: "41出口, 41福田",
-                players: "41井上, 41出口, 41山内, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯田",
-                videoUrl: null, 
-                photoUrl: null, 
-                inningsHtml: `
-                    <table class="score-board">
-                         <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>R</th></tr></thead>
-                        <tbody>
-                            <tr><td>八千代中央</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>3</strong></td></tr>
-                            <tr><td>千葉北</td><td>3</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>×</td><td><strong>5</strong></td></tr>
-                        </tbody>
-                    </table>
-                `,
-                // ID部分を削除しました
-                images: ["20251108vs八千代中央①@長生の森野球場/IMG_2913.jpeg"]
-            },
-            {
-                id: "game002",
-                date: "2025/10/12 14:00",
-                opponent: "千葉西",
-                venue: "青葉の森野球場",
-                tournament: "千葉市大会",
-                gameName: "決勝戦",
-                type: "公式戦",
-                result: "loss",
-                isMyTeamFirst: true, // 先攻
-                myScore: 2,
-                oppScore: 3,
-                pitchers: "41飯田",
-                players: "41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島",
-                videoUrl: "https://youtu.be/udiA0qn1f7k",
-                photoUrl: "https://photos.app.goo.gl/MjrXXtxg89p2Howg7",
-                inningsHtml: `
-                    <table class="score-board">
-                        <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>R</th></tr></thead>
-                        <tbody>
-                            <tr><td>千葉北</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr>
-                            <tr><td>千葉西</td><td>2</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>3</strong></td></tr>
-                        </tbody>
-                    </table>
-                `,
-                // ID部分を削除しました
-                images: ["20251012vs千葉西@青葉の森野球場/ScoreBook_Placeholder.jpeg"] 
-            },
-            {
-                id: "game001",
-                date: "2025/10/11 09:00",
-                opponent: "千葉市",
-                venue: "青葉の森野球場",
-                tournament: "千葉市大会",
-                gameName: "１回戦",
-                type: "公式戦",
-                result: "win",
-                isMyTeamFirst: false, // 後攻
-                myScore: 4,
-                oppScore: 0,
-                pitchers: "41春日, 41田村, 41飯田",
-                players: "41井上, 41出口, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
-                videoUrl: "https://youtu.be/lFjGqce8wz0",
-                photoUrl: "https://photos.app.goo.gl/bDWXBSYt1Kkr9phf9",
-                inningsHtml: `
-                    <table class="score-board">
-                        <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>R</th></tr></thead>
-                        <tbody>
-                            <tr><td>千葉市</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
-                            <tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td>1</td><td>×</td><td><strong>4</strong></td></tr>
-                        </tbody>
-                    </table>
-                `,
-                // ID部分を削除しました
-                images: ["20251011vs千葉市@青葉の森野球場/ScoreBook_Placeholder.jpeg"] 
-            },
-            {
-                // ノーゲームのサンプル
-                id: "game000_nogame",
-                date: "2025/09/15 10:00",
-                opponent: "某チーム",
-                venue: "某球場",
-                tournament: "練習試合",
-                gameName: "OP戦",
-                type: "OP戦",
-                result: "no_game", // ノーゲーム
-                isMyTeamFirst: true, 
-                myScore: 1,
-                oppScore: 1,
-                pitchers: "41田中",
-                players: "41田中, 41鈴木",
-                videoUrl: null,
-                photoUrl: null,
-                inningsHtml: `<p class="text-xs text-center py-2">雨天により3回ノーゲーム</p>`,
-                images: []
-            }
-        ];
+    {
+        "id": "game_001",
+        "date": "2025/11/29 12:00 (JST)",
+        "opponent": "松戸中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 2,
+        "pitchers": "41出口, 41飯田",
+        "players": "41井上, 41出口, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/TyxZMmc-xek",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>松戸中央</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20251129vs松戸中央B②@千葉北SG/IMG_3103.jpeg"
+        ]
+    },
+    {
+        "id": "game_002",
+        "date": "2025/11/29 9:00 (JST)",
+        "opponent": "松戸中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 4,
+        "oppScore": 7,
+        "pitchers": "41田村, 41福田",
+        "players": "41井上, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/KOEazV2EKkc",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr><tr><td>松戸中央</td><td>0</td><td>3</td><td>1</td><td>0</td><td>2</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20251129vs松戸中央B①@千葉北SG/IMG_3097.jpeg",
+            "20251129vs松戸中央B①@千葉北SG/IMG_3098.jpeg"
+        ]
+    },
+    {
+        "id": "game_003",
+        "date": "2025/11/08 13:00 (JST)",
+        "opponent": "八千代中央シニア",
+        "venue": "長生の森野球場",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 6,
+        "oppScore": 1,
+        "pitchers": "41飯田",
+        "players": "41井上, 41出口, 41山内, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>1</td><td>0</td><td>0</td><td><strong>6</strong></td></tr><tr><td>八千代中央</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>×</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20251108vs八千代中央②@長生の森野球場/IMG_2914.jpeg"
+        ]
+    },
+    {
+        "id": "game_004",
+        "date": "2025/11/08 9:00 (JST)",
+        "opponent": "八千代中央シニア",
+        "venue": "長生の森野球場",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 5,
+        "oppScore": 3,
+        "pitchers": "41出口, 41福田",
+        "players": "41井上, 41出口, 41山内, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>八千代中央</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>3</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>×</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20251108vs八千代中央①@長生の森野球場/IMG_2913.jpeg"
+        ]
+    },
+    {
+        "id": "game_005",
+        "date": "2025/10/19 11:00 (JST)",
+        "opponent": "東京城南",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "draw",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 4,
+        "pitchers": "41春日, 41福田",
+        "players": "41井上, 41出口, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/nCwYbqvbeBc",
+        "photoUrl": "https://photos.app.goo.gl/SsHcYJcnga8PsCwv6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>城南B</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>1</td><td>0</td><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20251019vs東京城南B②@千葉北SG/IMG_2772.jpeg"
+        ]
+    },
+    {
+        "id": "game_006",
+        "date": "2025/10/19 9:00 (JST)",
+        "opponent": "東京城南",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 3,
+        "oppScore": 8,
+        "pitchers": "41出口, 41田村",
+        "players": "41井上, 41出口, 41山内, 41春日, 41松浦, 41田村, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/SksnZqSXxlk",
+        "photoUrl": "https://photos.app.goo.gl/JUApMpPVzrsHenyA9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr><tr><td>城南B</td><td>3</td><td>3</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>×</td><td><strong>8</strong></td></tr></tbody></table>",
+        "images": [
+            "20251019vs東京城南B①@千葉北SG/IMG_2773.jpeg"
+        ]
+    },
+    {
+        "id": "game_007",
+        "date": "2025/10/12 10:00 (JST)",
+        "opponent": "千葉西シニア",
+        "venue": "青葉の森G",
+        "tournament": "千葉市少年スポーツ連盟中央大会2025",
+        "gameName": "千葉市大会 決勝戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 3,
+        "pitchers": "41飯田",
+        "players": "41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/udiA0qn1f7k",
+        "photoUrl": "https://photos.app.goo.gl/MjrXXtxg89p2Howg7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉西</td><td>2</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20251012vs千葉西@青葉の森野球場/image.png"
+        ]
+    },
+    {
+        "id": "game_008",
+        "date": "2025/10/11 11:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "青葉の森G",
+        "tournament": "千葉市少年スポーツ連盟中央大会2025",
+        "gameName": "千葉市大会 １回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 0,
+        "pitchers": "41春日, 41田村, 41飯田",
+        "players": "41井上, 41出口, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/lFjGqce8wz0",
+        "photoUrl": "https://photos.app.goo.gl/bDWXBSYt1Kkr9phf9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉市</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td>1</td><td>×</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20251011vs千葉市@青葉の森野球場/image.png"
+        ]
+    },
+    {
+        "id": "game_009",
+        "date": "2025/09/28 13:00 (JST)",
+        "opponent": "東葛",
+        "venue": "東葛B栄町G",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 7,
+        "oppScore": 12,
+        "pitchers": "41遠井, 41酒井",
+        "players": "41井上, 41山内, 41春日, 41松浦, 41石上, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>3</td><td>1</td><td>1</td><td>0</td><td><strong>7</strong></td></tr><tr><td>東葛B</td><td>4</td><td>0</td><td>6</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>×</td><td><strong>12</strong></td></tr></tbody></table>",
+        "images": [
+            "20250929vs東葛飾B②@東葛B栄町G/IMG_2621.jpg"
+        ]
+    },
+    {
+        "id": "game_010",
+        "date": "2025/09/28 9:00 (JST)",
+        "opponent": "東葛",
+        "venue": "東葛B栄町G",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 7,
+        "pitchers": "41春日, 41飯田",
+        "players": "41井上, 41山内, 41春日, 41松浦, 41石上, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>東葛飾</td><td>2</td><td>0</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td><strong>7</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20250929vs東葛飾B①@東葛B栄町G/IMG_2620.jpg"
+        ]
+    },
+    {
+        "id": "game_011",
+        "date": "2025/09/23 14:00 (JST)",
+        "opponent": "八千代中央シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 15,
+        "pitchers": "41春日, 41飯田",
+        "players": "41中村, 41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/Zo4slVZnJw8",
+        "photoUrl": "https://photos.app.goo.gl/WQ8u6tTqLvKSdwXi6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>八千代中央</td><td>4</td><td>5</td><td>0</td><td>0</td><td>1</td><td>2</td><td>3</td><td><strong>15</strong></td></tr><tr><td>千葉北</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20250923vs八千代中央@千葉北SG/八千代中央.jpg"
+        ]
+    },
+    {
+        "id": "game_012",
+        "date": "2025/09/23 9:00 (JST)",
+        "opponent": "世田谷西シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 7,
+        "oppScore": 8,
+        "pitchers": "41春日, 41田村, 41飯田",
+        "players": "41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/gsMr-8cnc1Y",
+        "photoUrl": "https://photos.app.goo.gl/XoFk7Vs7wpR2LWWw8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>世田谷西</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>6</td><td><strong>8</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td>1</td><td>3</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20250923vs世田谷西@千葉北SG/世田谷西.jpg"
+        ]
+    },
+    {
+        "id": "game_013",
+        "date": "2025/09/21 11:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "KSGグラウンド船橋",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 8,
+        "oppScore": 2,
+        "pitchers": "41飯田",
+        "players": "41井上, 41山内, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>白井中央</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>0</td><td>0</td><td>0</td><td>×</td><td><strong>8</strong></td></tr></tbody></table>",
+        "images": [
+            "20250921vs白井中央②@KSG/白井中央２.jpg"
+        ]
+    },
+    {
+        "id": "game_014",
+        "date": "2025/09/21 9:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "KSGグラウンド船橋",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 5,
+        "oppScore": 4,
+        "pitchers": "41春日, 41田村",
+        "players": "41井上, 41山内, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>2</td><td>0</td><td><strong>5</strong></td></tr><tr><td>白井中央</td><td>0</td><td>0</td><td>2</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20250921vs白井中央①@KSG/白井中央１.jpg"
+        ]
+    },
+    {
+        "id": "game_015",
+        "date": "2025/09/15 11:00 (JST)",
+        "opponent": "市川シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 3,
+        "oppScore": 1,
+        "pitchers": "41出口, 41飯田",
+        "players": "41中村, 41井上, 41出口, 41山内, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/xwZcJWuob2E",
+        "photoUrl": "https://photos.app.goo.gl/iZbyLRxH5Y87c2Va6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td><strong>3</strong></td></tr><tr><td>市川</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20250915vs市川@千葉北SG/市川.jpg"
+        ]
+    },
+    {
+        "id": "game_016",
+        "date": "2025/09/14 11:00 (JST)",
+        "opponent": "浦安シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 4,
+        "oppScore": 0,
+        "pitchers": "41出口, 41飯田",
+        "players": "41井上, 41出口, 41山内, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/QniUSWRekPU",
+        "photoUrl": "https://photos.app.goo.gl/QSvrjoTRxCjtARDPA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td><strong>4</strong></td></tr><tr><td>浦安</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20250914vs浦安②@千葉北SG/image.png"
+        ]
+    },
+    {
+        "id": "game_017",
+        "date": "2025/09/14 9:00 (JST)",
+        "opponent": "浦安シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 0,
+        "pitchers": "41春日, 41田村, 41福田",
+        "players": "41井上, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/xAbBtF8lP7A",
+        "photoUrl": "https://photos.app.goo.gl/QwzemfdAhRXstRJw6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>浦安</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>×</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20250914vs浦安①@千葉北SG/浦安.jpg"
+        ]
+    },
+    {
+        "id": "game_018",
+        "date": "2025/09/07 14:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 5,
+        "pitchers": "41出口, 41福田",
+        "players": "41井上, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/xF-MPuAvvGk",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>千葉市</td><td>0</td><td>0</td><td>4</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>5</strong></td></tr><tr><td>千葉北</td><td>1</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20250907vs千葉市@千葉北SG/IMG_2483.jpg"
+        ]
+    },
+    {
+        "id": "game_019",
+        "date": "2025/08/11 11:30 (JST)",
+        "opponent": "木更津シニア",
+        "venue": "木更津SG",
+        "tournament": "マリーンズ杯2025",
+        "gameName": "マリーンズ杯４回戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 4,
+        "pitchers": "41春日, 41福田, 41飯田",
+        "players": "41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/6dk4BrEDZUY",
+        "photoUrl": "https://photos.app.goo.gl/tDEta9gVzLyo98eRA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>木更津</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>2</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20250811vs木更津@木更津SG/RK20250812085950991.jpg"
+        ]
+    },
+    {
+        "id": "game_020",
+        "date": "2025/08/09 11:30 (JST)",
+        "opponent": "香取シニア",
+        "venue": "八千代総合運動公園野球場",
+        "tournament": "マリーンズ杯2025",
+        "gameName": "マリーンズ杯３回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 7,
+        "oppScore": 1,
+        "pitchers": "41春日, 41田村, 41飯田",
+        "players": "41中村, 41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/eP_fek8TtkU",
+        "photoUrl": "https://photos.app.goo.gl/Np4Xgir9K1YyCMud8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>香取</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td><td>4</td><td>×</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20250809vs香取@八千代総合運動公園野球場/RK20250810090609214.jpg"
+        ]
+    },
+    {
+        "id": "game_021",
+        "date": "2025/08/03 9:00 (JST)",
+        "opponent": "市原",
+        "venue": "市原PG",
+        "tournament": "マリーンズ杯2025",
+        "gameName": "マリーンズ杯２回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 10,
+        "oppScore": 0,
+        "pitchers": "41福田",
+        "players": "41井上, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/nqZKYUo6cS8JV6Dp7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>7</td><td>1</td><td>0</td><td>1</td><td><strong>10</strong></td></tr><tr><td>市原P</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20250803vs市原P@市原PG/28C8B8B8-F8EA-4913-9FB3-958C7F5C9F39_1_105_c.jpeg"
+        ]
+    },
+    {
+        "id": "game_022",
+        "date": "2025/07/27 9:00 (JST)",
+        "opponent": "千葉市Winnersシニア",
+        "venue": "千葉北SG",
+        "tournament": "マリーンズ杯2025",
+        "gameName": "マリーンズ杯１回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 10,
+        "oppScore": 3,
+        "pitchers": "41福田",
+        "players": "41中村, 41井上, 41千野, 41山内, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/DtLoVWY1nds",
+        "photoUrl": "https://photos.app.goo.gl/Wfh98mXKXrqApWAR6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>合計</th></tr></thead><tbody><tr><td>千葉市W</td><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>2</td><td>0</td><td>2</td><td>1</td><td>1</td><td>4×</td><td><strong>10</strong></td></tr></tbody></table>",
+        "images": []
+    },
+    {
+        "id": "game_023",
+        "date": "2025/07/20 11:00 (JST)",
+        "opponent": "匝瑳シニア",
+        "venue": "吉田G",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 7,
+        "pitchers": "41田村, 41酒井",
+        "players": "41千野, 41山内, 41山本, 41春日, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/pPreSNHxAFY",
+        "photoUrl": "https://photos.app.goo.gl/cSYQgxUjcG2YEsxU9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>匝瑳</td><td>4</td><td>0</td><td>1</td><td>0</td><td>2</td><td>0</td><td>0</td><td><strong>7</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20250720vs匝瑳②@吉田G/LINE_ALBUM_スコア_250721_1.jpg"
+        ]
+    },
+    {
+        "id": "game_024",
+        "date": "2025/07/20 9:00 (JST)",
+        "opponent": "匝瑳シニア",
+        "venue": "吉田G",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 3,
+        "oppScore": 4,
+        "pitchers": "41出口, 41福田",
+        "players": "41井上, 41出口, 41山内, 41山本, 41春日, 41松浦, 41福田, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/ODQhojDTAOk",
+        "photoUrl": "https://photos.app.goo.gl/m3PjJjr2468NUUby5",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr><tr><td>匝瑳</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3×</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20250720vs匝瑳①@吉田G/LINE_ALBUM_スコア_250721_2.jpg"
+        ]
+    },
+    {
+        "id": "game_025",
+        "date": "2025/07/06 11:00 (JST)",
+        "opponent": "東京和泉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 1,
+        "pitchers": "41出口, 41田村, 41福田",
+        "players": "41中村, 41井上, 41出口, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41福田, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/h6LvJdP8A5E",
+        "photoUrl": "https://photos.app.goo.gl/cwP5Nbz7EQMtVTwV7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>東京和泉</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>0</td><td>3</td><td>0</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20250706vs東京和泉②@千葉北SG/IMG_1790.jpeg"
+        ]
+    },
+    {
+        "id": "game_026",
+        "date": "2025/07/06 9:00 (JST)",
+        "opponent": "東京和泉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 6,
+        "oppScore": 0,
+        "pitchers": "41福田, 41飯田",
+        "players": "41中村, 41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/AFNYtgTAQzk",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>2</td><td>0</td><td>1</td><td>0</td><td>3</td><td>0</td><td><strong>6</strong></td></tr><tr><td>東京和泉</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20250706vs東京和泉①@千葉北SG/IMG_1789.jpeg"
+        ]
+    },
+    {
+        "id": "game_027",
+        "date": "2025/06/29 11:00 (JST)",
+        "opponent": "柏シニア",
+        "venue": "柏SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 8,
+        "oppScore": 2,
+        "pitchers": "41出口, 41福田",
+        "players": "41中村, 41出口, 41千野, 41山本, 41春日, 41石上, 41福田, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/4ouj80dbMlg",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>柏</td><td>２</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>２</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>４</td><td>１</td><td>３</td><td>0</td><td>0</td><td><strong>８</strong></td></tr></tbody></table>",
+        "images": [
+            "20250629vs柏②@柏SG/IMG_17881.jpg"
+        ]
+    },
+    {
+        "id": "game_028",
+        "date": "2025/06/29 9:00 (JST)",
+        "opponent": "柏シニア",
+        "venue": "柏SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 3,
+        "pitchers": "41田村",
+        "players": "41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/_S2ckL0K_Bk",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>柏</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20250629vs柏①@柏SG/IMG_1787.jpeg"
+        ]
+    },
+    {
+        "id": "game_029",
+        "date": "2025/06/15 15:30 (JST)",
+        "opponent": "大田シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 1,
+        "pitchers": "41出口, 41田村, 41福田, 41飯田",
+        "players": "41中村, 41井上, 41入江, 41出口, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>2</strong></td></tr><tr><td>大田</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20250615vs大田シニア@千葉北SG/IMG_1642.jpeg"
+        ]
+    },
+    {
+        "id": "game_030",
+        "date": "2025/06/07 9:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 1,
+        "pitchers": "41田村, 41福田, 41飯田",
+        "players": "41中村, 41井上, 41出口, 41千野, 41山内, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>白井中央</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20250607vs白井中央B@千葉北SG/IMG_1566.jpeg"
+        ]
+    },
+    {
+        "id": "game_031",
+        "date": "2025/05/25 14:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 3,
+        "oppScore": 9,
+        "pitchers": "41田村, 41飯田, 42太田",
+        "players": "41中村, 41井上, 41入江, 41千野, 41山本, 41田村, 41石上, 41酒井, 41飯島, 41飯田, 42太田, 42山口翔",
+        "videoUrl": "https://youtu.be/RD9qXudaXWQ",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr><tr><td>千葉市</td><td>0</td><td>0</td><td>1</td><td>0</td><td>4</td><td>4</td><td>×</td><td><strong>9</strong></td></tr></tbody></table>",
+        "images": [
+            "20250525vs千葉市②@千葉北SG/IMG_1526.jpeg"
+        ]
+    },
+    {
+        "id": "game_032",
+        "date": "2025/05/25 13:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 1,
+        "pitchers": "41出口, 41福田, 42保坂, 42芦川",
+        "players": "41井上, 41出口, 41春日, 41松浦, 41田村, 41福田, 41酒井, 41金子, 41飯島, 42保坂, 42山口翔, 42横尾, 42芦川, 42西塚, 42黒岩",
+        "videoUrl": "https://youtu.be/xnlFvQmIIaQ",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉市</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20250525vs千葉市①@千葉北SG/IMG_1525.jpeg"
+        ]
+    },
+    {
+        "id": "game_033",
+        "date": "2025/05/18 9:00 (JST)",
+        "opponent": "八王子シニア",
+        "venue": "八王子SG",
+        "tournament": "関東連盟夏季大会2025",
+        "gameName": "関東連盟夏季大会2回戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 5,
+        "pitchers": "41福田, 41飯田",
+        "players": "41井上, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田, 42宮川, 42西塚",
+        "videoUrl": "https://youtu.be/lku5LClujzw",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>八王子</td><td>0</td><td>1</td><td>0</td><td>4</td><td>0</td><td>0</td><td>0</td><td><strong>5</strong></td></tr><tr><td>千葉北</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20250518vs八王子@八王子SG/IMG_1491.jpeg"
+        ]
+    },
+    {
+        "id": "game_034",
+        "date": "2025/05/11 14:00 (JST)",
+        "opponent": "木更津シニア",
+        "venue": "木更津SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 4,
+        "oppScore": 1,
+        "pitchers": "41福田, 41飯田",
+        "players": "41井上, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田, 42西塚",
+        "videoUrl": "https://youtu.be/4F6w2BsfsXs",
+        "photoUrl": "https://photos.app.goo.gl/FuUegEBBGfuUHzmU8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>4</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr><tr><td>木更津</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20250511vs木更津@木更津SG/image.png"
+        ]
+    },
+    {
+        "id": "game_035",
+        "date": "2025/05/11 11:00 (JST)",
+        "opponent": "浦安シニア",
+        "venue": "木更津SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 8,
+        "pitchers": "41出口, 41田村",
+        "players": "41中村, 41井上, 41出口, 41千野, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島, 42山口翔, 42横尾, 42織田, 42西塚",
+        "videoUrl": "https://youtu.be/53IwT-I-r14",
+        "photoUrl": "https://photos.app.goo.gl/Znfs573fLybntj677",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td><strong>2</strong></td></tr><tr><td>浦安</td><td>3</td><td>0</td><td>0</td><td>1</td><td>1</td><td>3</td><td>×</td><td><strong>8</strong></td></tr></tbody></table>",
+        "images": [
+            "20250511vs浦安@木更津SG/IMG_1467.jpeg"
+        ]
+    },
+    {
+        "id": "game_036",
+        "date": "2025/05/04 13:00 (JST)",
+        "opponent": "柏",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 12,
+        "oppScore": 0,
+        "pitchers": "41出口, 41松川, 41福田",
+        "players": "41中村, 41井上, 41入江, 41出口, 41千野, 41山内, 41山本, 41春日, 41松川, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41飯島, 42山口翔, 42横尾, 42西塚, 42近藤",
+        "videoUrl": "https://youtu.be/BNe36vDpbUQ",
+        "photoUrl": "https://photos.app.goo.gl/x378eV4Whmsptpth7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>1</td><td>2</td><td>1</td><td>5</td><td>3</td><td>0</td><td>×</td><td><strong>12</strong></td></tr></tbody></table>",
+        "images": [
+            "20250504vs柏B②@千葉北SG/IMG_1368.jpeg",
+            "20250504vs柏B②@千葉北SG/IMG_1369.jpeg"
+        ]
+    },
+    {
+        "id": "game_037",
+        "date": "2025/05/04 9:00 (JST)",
+        "opponent": "柏",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "draw",
+        "isMyTeamFirst": true,
+        "myScore": 5,
+        "oppScore": 5,
+        "pitchers": "41田村, 41飯田",
+        "players": "41中村, 41井上, 41山内, 41春日, 41松浦, 41田村, 41遠井, 41酒井, 41金子, 41飯島, 41飯田, 42織田, 42西塚, 42近藤",
+        "videoUrl": "https://youtu.be/6BSw_wRULIA",
+        "photoUrl": "https://photos.app.goo.gl/jUcvCYvkSsZHVHSr5",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>2</td><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>5</strong></td></tr><tr><td>柏B</td><td>0</td><td>1</td><td>1</td><td>0</td><td>2</td><td>0</td><td>1</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20250504vs柏B①@千葉北SG/IMG_1357.jpeg",
+            "20250504vs柏B①@千葉北SG/IMG_1358.jpeg"
+        ]
+    },
+    {
+        "id": "game_038",
+        "date": "2025/04/29 14:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 10,
+        "oppScore": 1,
+        "pitchers": "41飯田",
+        "players": "41井上, 41千野, 41山内, 41山本, 41春日, 41田村, 41遠井, 41金子, 41飯島, 41飯田, 42山口翔, 42織田, 42西塚",
+        "videoUrl": "https://youtu.be/UrpMnn1CFCI",
+        "photoUrl": "https://photos.app.goo.gl/8tdgiWPRi8RuX3PX8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>１</td><td>２</td><td>0</td><td>4</td><td>2</td><td><strong>10</strong></td></tr><tr><td>白井中央</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20250429vs白井中央B③@千葉北SG/IMG_1312.jpeg"
+        ]
+    },
+    {
+        "id": "game_039",
+        "date": "2025/04/29 11:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 3,
+        "oppScore": 11,
+        "pitchers": "41松川, 41田村",
+        "players": "41中村, 41入江, 41千野, 41松川, 41田村, 41石上, 42大滝, 42山口翔, 42織田, 42西塚, 42近藤",
+        "videoUrl": "https://youtu.be/LQwW1aGTRd0",
+        "photoUrl": "https://photos.app.goo.gl/rrzdVo28M1jEGTrt8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>１</td><td>２</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr><tr><td>白井中央</td><td>0</td><td>1</td><td>0</td><td>2</td><td>6</td><td>2</td><td>×</td><td><strong>11</strong></td></tr></tbody></table>",
+        "images": [
+            "20250429vs白井中央B②@千葉北SG/IMG_1313.jpeg"
+        ]
+    },
+    {
+        "id": "game_040",
+        "date": "2025/04/29 9:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "draw",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 0,
+        "pitchers": "41出口, 41松川, 41福田",
+        "players": "41中村, 41井上, 41千野, 41山内, 41山本, 41春日, 41松川, 41松浦, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 42織田, 42西塚",
+        "videoUrl": "https://youtu.be/IFkZ1iniRVY",
+        "photoUrl": "https://photos.app.goo.gl/n2q1LgfXM8hAnTqt8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>白井中央</td><td>0</td><td>0</td><td>２</td><td>0</td><td>２</td><td>１</td><td>0</td><td>0</td><td>１</td><td><strong>6</strong></td></tr><tr><td>千葉北</td><td>１</td><td>４</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>２×</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20250429vs白井中央B①@千葉北SG/IMG_1314.jpeg"
+        ]
+    },
+    {
+        "id": "game_041",
+        "date": "2025/04/20 9:00 (JST)",
+        "opponent": "市川シニア",
+        "venue": "千葉北SG",
+        "tournament": "読売新聞社杯 兼 千葉県大会2025",
+        "gameName": "読売新聞社杯 兼 千葉県大会/３回戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 5,
+        "oppScore": 7,
+        "pitchers": "41松川, 41田村, 41飯田",
+        "players": "41井上, 41入江, 41山内, 41山本, 41春日, 41松川, 41松浦, 41田村, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/6BzAytKLiTI",
+        "photoUrl": "https://photos.app.goo.gl/cFGvYyuL2CjJKPJYA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>市川</td><td>0</td><td>2</td><td>3</td><td>0</td><td>0</td><td>2</td><td>0</td><td><strong>7</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>3</td><td>2</td><td>0</td><td>0</td><td>0</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20250420vs市川@千葉北SG/IMG_1259.jpeg"
+        ]
+    },
+    {
+        "id": "game_042",
+        "date": "2025/04/06 9:00 (JST)",
+        "opponent": "八千代シニア",
+        "venue": "千葉北SG",
+        "tournament": "読売新聞社杯 兼 千葉県大会2025",
+        "gameName": "読売新聞社杯 兼 千葉県大会/２回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 1,
+        "pitchers": "41出口, 41田村, 41福田",
+        "players": "41中村, 41井上, 41入江, 41出口, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/ol3J2XsU3vA",
+        "photoUrl": "https://photos.app.goo.gl/X7y313cSBQQHqbTL9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>八千代</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>×</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20250406vs八千代@千葉北SG/IMG_1076.jpeg"
+        ]
+    },
+    {
+        "id": "game_043",
+        "date": "2025/03/30 10:00 (JST)",
+        "opponent": "船橋シニア",
+        "venue": "千葉北SG",
+        "tournament": "読売新聞社杯 兼 千葉県大会2025",
+        "gameName": "読売新聞社杯 兼 千葉県大会/１回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 6,
+        "oppScore": 2,
+        "pitchers": "41出口, 41田村, 41福田",
+        "players": "41井上, 41出口, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/cbPNk09EmwE",
+        "photoUrl": "https://photos.app.goo.gl/Ae875YtFoFoXQujc8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td>3</td><td><strong>6</strong></td></tr><tr><td>船橋</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20250330vs船橋@千葉北SG/C7B28A3E-1788-4421-887A-727708F45DE6_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_044",
+        "date": "2025/03/22 9:00 (JST)",
+        "opponent": "市川シニア",
+        "venue": "千葉北SG",
+        "tournament": "東関東支部春季大会2025",
+        "gameName": "東関東支部春季大会/敗者復活戦３回戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 3,
+        "pitchers": "41福田, 41飯田",
+        "players": "41中村, 41井上, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41金子, 41飯島, 41飯田, 42西塚",
+        "videoUrl": "https://youtu.be/pBDZymmqp2w",
+        "photoUrl": "https://photos.app.goo.gl/rn6rFJD4NPzevbBT8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td><strong>2</strong></td></tr><tr><td>市川</td><td>0</td><td>1</td><td>0</td><td>2</td><td>0</td><td>0</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20250322vs市川@千葉北SG/IMG_1025.jpeg",
+            "20250322vs市川@千葉北SG/IMG_1026.jpeg"
+        ]
+    },
+    {
+        "id": "game_045",
+        "date": "2025/03/20 13:00 (JST)",
+        "opponent": "江東シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 1,
+        "pitchers": "41田村, 41福田, 41飯田",
+        "players": "41井上, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/qPTRyOESxQY",
+        "photoUrl": "https://photos.app.goo.gl/YpL4Un3226UAqYxk6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>江東</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20250320vs江東@千葉北SG/IMG_1019.jpeg",
+            "20250320vs江東@千葉北SG/IMG_1018.jpeg"
+        ]
+    },
+    {
+        "id": "game_046",
+        "date": "2025/03/20 9:00 (JST)",
+        "opponent": "山梨都留シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "draw",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 0,
+        "pitchers": "41出口, 42太田",
+        "players": "41中村, 41井上, 41入江, 41出口, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41遠井, 42太田, 42横尾, 42西塚",
+        "videoUrl": "https://youtu.be/IBI4ttvJRys",
+        "photoUrl": "https://photos.app.goo.gl/u2PvDDdMt5aFHeW48",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>山梨都留</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>2</td><td>1×</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20250320vs山梨都留@千葉北SG/IMG_1017.jpeg",
+            "20250320vs山梨都留@千葉北SG/IMG_1016.jpeg"
+        ]
+    },
+    {
+        "id": "game_047",
+        "date": "2025/03/15 11:00 (JST)",
+        "opponent": "水戸シニア",
+        "venue": "千葉北SG",
+        "tournament": "東関東支部春季大会2025",
+        "gameName": "東関東支部春季大会/敗者復活戦２回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 4,
+        "oppScore": 3,
+        "pitchers": "41福田, 41飯田",
+        "players": "41中村, 41井上, 41山内, 41山本, 41春日, 41松浦, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田, 42横尾, 42西塚",
+        "videoUrl": "https://youtu.be/Ndae4oEYdHc?si=HlnVQbKCAJjBIyH4",
+        "photoUrl": "https://photos.app.goo.gl/LCD4haqLqzRss4e86",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td><strong>4</strong></td></tr><tr><td>水戸</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20250315vs水戸@千葉北SG/IMG_1003.jpeg",
+            "20250315vs水戸@千葉北SG/IMG_1002.jpeg"
+        ]
+    },
+    {
+        "id": "game_048",
+        "date": "2025/03/02 11:00 (JST)",
+        "opponent": "つくば中央",
+        "venue": "千葉北SG",
+        "tournament": "東関東支部春季大会2025",
+        "gameName": "東関東支部春季大会/敗者復活戦１回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 8,
+        "oppScore": 0,
+        "pitchers": "41出口, 41田村, 41福田",
+        "players": "41井上, 41出口, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 42西塚",
+        "videoUrl": "https://youtu.be/f95MZc9qags",
+        "photoUrl": "https://photos.app.goo.gl/1yYiUceW6GDpmN1e6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>合計</th></tr></thead><tbody><tr><td>つくば中央</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>2</td><td>6</td><td>0</td><td>×</td><td><strong>8</strong></td></tr></tbody></table>",
+        "images": [
+            "20250302vsつくば中央@千葉北SG/LINE_ALBUM_スコア_250303_1_-_コピー.jpg",
+            "20250302vsつくば中央@千葉北SG/LINE_ALBUM_スコア_250303_1.jpg"
+        ]
+    },
+    {
+        "id": "game_049",
+        "date": "2025/02/23 9:00 (JST)",
+        "opponent": "成田シニア",
+        "venue": "成田SG",
+        "tournament": "東関東支部春季大会2025",
+        "gameName": "東関東支部春季大会/1回戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 3,
+        "oppScore": 5,
+        "pitchers": "41福田, 41飯田",
+        "players": "41井上, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田, 42西塚",
+        "videoUrl": "https://youtu.be/KfMikhzT2F8",
+        "photoUrl": "https://photos.app.goo.gl/RUUDSvFPTHBtwANY6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>1</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr><tr><td>成田</td><td>2</td><td>0</td><td>1</td><td>2</td><td>0</td><td>0</td><td>×</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20250223vs成田@成田SG/IMG_0906.jpeg"
+        ]
+    },
+    {
+        "id": "game_050",
+        "date": "2025/02/16 13:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 12,
+        "oppScore": 4,
+        "pitchers": "41出口, 41田村, 41福田",
+        "players": "41井上, 41入江, 41出口, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/Qb7CrDwEP5U",
+        "photoUrl": "https://photos.app.goo.gl/BQrko3FFGUtU7tro6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉市</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>1</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>0</td><td>2</td><td>2</td><td>2</td><td>1</td><td>5</td><td>×</td><td><strong>12</strong></td></tr></tbody></table>",
+        "images": [
+            "20250216vs千葉市③@千葉北SG/LINE_ALBUM_スコア_250216_3.jpg"
+        ]
+    },
+    {
+        "id": "game_051",
+        "date": "2025/02/16 11:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 0,
+        "oppScore": 1,
+        "pitchers": "41出口, 41春日, 41松川, 41田村",
+        "players": "41中村, 41入江, 41出口, 41千野, 41山内, 41春日, 41松川, 41田村, 41石上, 41福田, 41遠井, 41酒井",
+        "videoUrl": "https://youtu.be/3F9_c9iuI84",
+        "photoUrl": "https://photos.app.goo.gl/YGUn4jmnowDqEBAs7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉市</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1×</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20250216vs千葉市②@千葉北SG/LINE_ALBUM_スコア_250216_2.jpg"
+        ]
+    },
+    {
+        "id": "game_052",
+        "date": "2025/02/16 9:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 7,
+        "oppScore": 9,
+        "pitchers": "41福田, 41飯田",
+        "players": "41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41福田, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/uQ3PGEMRH6s",
+        "photoUrl": "https://photos.app.goo.gl/o5faToih6x5JFVSd9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉市</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>6</td><td>2</td><td><strong>9</strong></td></tr><tr><td>千葉北</td><td>0</td><td>3</td><td>0</td><td>3</td><td>0</td><td>1</td><td>0</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20250216vs千葉市①@千葉北SG/LINE_ALBUM_スコア_250216_1.jpg"
+        ]
+    },
+    {
+        "id": "game_053",
+        "date": "2025/02/09 13:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 11,
+        "oppScore": 3,
+        "pitchers": "41出口, 41飯田, 42太田",
+        "players": "41中村, 41井上, 41入江, 41出口, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41金子, 41飯島, 41飯田, 42太田, 42横尾",
+        "videoUrl": "https://youtu.be/g7Dtt6N90Cs",
+        "photoUrl": "https://photos.app.goo.gl/AZBZJSscv254kWdq9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20250209vs白井中央@千葉北SG/LINE_ALBUM_スコア_250209_1.jpg"
+        ]
+    },
+    {
+        "id": "game_054",
+        "date": "2025/02/09 9:00 (JST)",
+        "opponent": "戸塚シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 8,
+        "oppScore": 3,
+        "pitchers": "41出口, 41福田, 41飯田",
+        "players": "41中村, 41井上, 41入江, 41出口, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41金子, 41飯島, 41飯田, 42横尾",
+        "videoUrl": "https://youtu.be/qqqbDd-ZU5E",
+        "photoUrl": "https://photos.app.goo.gl/wLpj6np2hwhEtqg5A",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>戸塚</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>2</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>4</td><td>0</td><td>1</td><td>3</td><td>0</td><td>0</td><td>×</td><td><strong>8</strong></td></tr></tbody></table>",
+        "images": [
+            "20250209vs戸塚@千葉北SG/IMG_0814.jpeg",
+            "20250209vs戸塚@千葉北SG/IMG_0813.jpeg"
+        ]
+    },
+    {
+        "id": "game_055",
+        "date": "2025/01/26 13:00 (JST)",
+        "opponent": "東京和泉シニア",
+        "venue": "オーシャンフィールド第２球場",
+        "tournament": "オーシャンカップ2025",
+        "gameName": "オーシャンカップ第４戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 11,
+        "oppScore": 5,
+        "pitchers": "41松川, 41田村, 42太田",
+        "players": "41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41松川, 41松浦, 41田村, 41石上, 41酒井, 41飯島, 42大滝, 42太田, 42山口翔, 42横尾, 42近藤",
+        "videoUrl": "https://youtu.be/cYH2y7MVQuY",
+        "photoUrl": "https://photos.app.goo.gl/DDdFiBpBXikfWmrNA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>合計</th></tr></thead><tbody><tr><td>東京和泉</td><td>2</td><td>3</td><td>0</td><td>0</td><td>0</td><td><strong>5</strong></td></tr><tr><td>千葉北</td><td>6</td><td>0</td><td>2</td><td>3</td><td>×</td><td><strong>11</strong></td></tr></tbody></table>",
+        "images": [
+            "20250126vs東京和泉@OF第2球場/IMG_0720.jpeg"
+        ]
+    },
+    {
+        "id": "game_056",
+        "date": "2025/01/26 9:00 (JST)",
+        "opponent": "宇都宮シニア",
+        "venue": "オーシャンフィールド第２球場",
+        "tournament": "オーシャンカップ2025",
+        "gameName": "オーシャンカップ第３戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 4,
+        "pitchers": "41出口, 41飯田",
+        "players": "41井上, 41出口, 41山本, 41春日, 41松浦, 41田村, 41遠井, 41酒井, 41金子, 41飯島, 41飯田, 42芦川, 42西塚",
+        "videoUrl": "https://youtu.be/k2sgYJJbCDg",
+        "photoUrl": "https://photos.app.goo.gl/sTbpGsiaeSFuc9E66",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>合計</th></tr></thead><tbody><tr><td>宇都宮</td><td>0</td><td>0</td><td>2</td><td>0</td><td>1</td><td>1</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20250126vs宇都宮@OF第2球場/IMG_0717.jpeg"
+        ]
+    },
+    {
+        "id": "game_057",
+        "date": "2025/01/25 13:00 (JST)",
+        "opponent": "山梨都留シニア",
+        "venue": "オーシャンフィールド第２球場",
+        "tournament": "オーシャンカップ2025",
+        "gameName": "オーシャンカップ第２戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 14,
+        "oppScore": 2,
+        "pitchers": "41出口, 41松川, 41飯田",
+        "players": "41井上, 41入江, 41出口, 41山本, 41春日, 41松川, 41松浦, 41田村, 41石上, 41遠井, 41飯島, 41飯田, 42大滝, 42宮川, 42横尾, 42近藤",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/9RpjE24E4mSvYUt4A",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>合計</th></tr></thead><tbody><tr><td>山梨都留</td><td>2</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>3</td><td>8</td><td>3</td><td>×</td><td><strong>14</strong></td></tr></tbody></table>",
+        "images": [
+            "20250125vs山梨都留@OF第2球場/IMG_0718.jpeg"
+        ]
+    },
+    {
+        "id": "game_058",
+        "date": "2025/01/25 9:00 (JST)",
+        "opponent": "横須賀三浦",
+        "venue": "オーシャンフィールド第２球場",
+        "tournament": "オーシャンカップ2025",
+        "gameName": "オーシャンカップ第１戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 5,
+        "pitchers": "41福田, 42太田",
+        "players": "41中村, 41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41金子, 41飯島, 42太田, 42山口翔, 42横尾",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/Fi8JVpN1mFqaJAGR8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>合計</th></tr></thead><tbody><tr><td>横須賀三浦</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>2</td><td><strong>5</strong></td></tr><tr><td>千葉北</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20250125vs横須賀三浦@OF第2球場/IMG_0719.jpeg"
+        ]
+    },
+    {
+        "id": "game_059",
+        "date": "2025/01/18 14:00 (JST)",
+        "opponent": "千葉ジャガーズ",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 6,
+        "oppScore": 2,
+        "pitchers": "41飯田, 42太田",
+        "players": "41中村, 41井上, 41入江, 41千野, 41山内, 41山本, 41松浦, 41石上, 41酒井, 41金子, 41飯島, 41飯田, 42山口翔, 42西塚, 42近藤",
+        "videoUrl": "https://youtu.be/_Tgbs_0gE2g",
+        "photoUrl": "https://photos.app.goo.gl/yV5smtWJcJEpoL1p6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉J</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>1</td><td>3</td><td>0</td><td>0</td><td>0</td><td>2</td><td>×</td><td><strong>6</strong></td></tr></tbody></table>",
+        "images": [
+            "20250118vs千葉ジャガーズ@千葉北SG/IMG_0515.jpeg",
+            "20250118vs千葉ジャガーズ@千葉北SG/IMG_0516.jpeg"
+        ]
+    },
+    {
+        "id": "game_060",
+        "date": "2025/01/18 9:00 (JST)",
+        "opponent": "横浜泉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 0,
+        "oppScore": 9,
+        "pitchers": "41春日, 41福田",
+        "players": "41中村, 41井上, 41山内, 41春日, 41松浦, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/aicudPZBNMw",
+        "photoUrl": "https://photos.app.goo.gl/938pXCHRJDivMzxR9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>横浜泉</td><td>1</td><td>0</td><td>4</td><td>1</td><td>0</td><td>3</td><td>×</td><td><strong>9</strong></td></tr></tbody></table>",
+        "images": [
+            "20250118vs横浜泉@千葉北SG/IMG_0501.jpeg",
+            "20250118vs横浜泉@千葉北SG/IMG_0502.jpeg"
+        ]
+    },
+    {
+        "id": "game_061",
+        "date": "2024/12/01 13:00 (JST)",
+        "opponent": "寒川・茅ヶ崎シニア",
+        "venue": "千葉北SG",
+        "tournament": "横浜湘南交流戦2024",
+        "gameName": "横浜湘南交流戦⑤",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 9,
+        "oppScore": 2,
+        "pitchers": "41出口, 41春日, 41松川",
+        "players": "41中村, 41井上, 41入江, 41出口, 41千野, 41山内, 41春日, 41松川, 41石上, 41遠井, 41酒井, 41金子",
+        "videoUrl": "https://youtu.be/AY295bxbgCM",
+        "photoUrl": "https://photos.app.goo.gl/8V8CtGnYThiXQbLT6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>合計</th></tr></thead><tbody><tr><td>寒川・茅ヶ崎</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>2</td><td>0</td><td>0</td><td>3</td><td>0</td><td>4×</td><td><strong>9</strong></td></tr></tbody></table>",
+        "images": [
+            "20241201vs寒川・茅ヶ崎@千葉北SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_241202_7.jpg"
+        ]
+    },
+    {
+        "id": "game_062",
+        "date": "2024/12/01 9:00 (JST)",
+        "opponent": "横浜泉シニア",
+        "venue": "千葉北SG",
+        "tournament": "横浜湘南交流戦2024",
+        "gameName": "横浜湘南交流戦④",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 11,
+        "pitchers": "41福田, 41飯田",
+        "players": "41千野, 41山内, 41山本, 41春日, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/vSiUb7lw4ZY",
+        "photoUrl": "https://photos.app.goo.gl/WjJ8D4yudeGdj3tx5",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>横浜泉</td><td>0</td><td>3</td><td>6</td><td>2</td><td>?</td><td><strong>11</strong></td></tr></tbody></table>",
+        "images": [
+            "20241201vs横浜泉@千葉北SG/CCCC04EC-9BB2-4E7E-8008-6B2E490A813C.jpeg"
+        ]
+    },
+    {
+        "id": "game_063",
+        "date": "2024/11/30 13:00 (JST)",
+        "opponent": "千葉西シニア",
+        "venue": "青葉の森G",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 5,
+        "oppScore": 4,
+        "pitchers": "41田村, 41福田",
+        "players": "41中村, 41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/wCA0WcmgtVw",
+        "photoUrl": "https://photos.app.goo.gl/dxftByxhiYbTjtkE6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉西</td><td>0</td><td>0</td><td>0</td><td>4</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>4</td><td>0</td><td>0</td><td>1</td><td>×</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20241130vs千葉西@青葉の森G/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_241202_4.jpg"
+        ]
+    },
+    {
+        "id": "game_064",
+        "date": "2024/11/30 9:00 (JST)",
+        "opponent": "中本牧シニア",
+        "venue": "青葉の森G",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "draw",
+        "isMyTeamFirst": true,
+        "myScore": 0,
+        "oppScore": 0,
+        "pitchers": "41春日, 41田村, 41飯田",
+        "players": "41中村, 41井上, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/vz5J_OulnsE",
+        "photoUrl": "https://photos.app.goo.gl/eA47ZEieQirTYVXw7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>1</strong></td></tr><tr><td>中本牧</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1?</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20241130vs中本牧@青葉の森G/0E57CE6D-1FF2-4039-89C4-A18C82E82AB8_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_065",
+        "date": "2024/11/24 13:00 (JST)",
+        "opponent": "中本牧シニア",
+        "venue": "三浦学苑G",
+        "tournament": "横浜湘南交流戦2024",
+        "gameName": "横浜湘南交流戦③",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 0,
+        "oppScore": 10,
+        "pitchers": "41田村, 41福田",
+        "players": "41中村, 41井上, 41千野, 41山内, 41春日, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/Bev8rcrkQio",
+        "photoUrl": "https://photos.app.goo.gl/BqS6Pw4S9pZ8BEDN6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>中本牧</td><td>1</td><td>4</td><td>0</td><td>1</td><td>0</td><td>4</td><td>?</td><td><strong>10</strong></td></tr></tbody></table>",
+        "images": [
+            "20241124vs中本牧@三浦学苑G/IMG_4387.jpg"
+        ]
+    },
+    {
+        "id": "game_066",
+        "date": "2024/11/24 11:00 (JST)",
+        "opponent": "竜ケ崎シニア",
+        "venue": "三浦学苑G",
+        "tournament": "横浜湘南交流戦2024",
+        "gameName": "横浜湘南交流戦②",
+        "type": "公式戦",
+        "result": "draw",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 0,
+        "pitchers": "41出口, 41春日, 41松川, 41飯田",
+        "players": "41中村, 41井上, 41千野, 41山内, 41山本, 41遠井, 41酒井, 41金子",
+        "videoUrl": "https://youtu.be/35zXBZPvr1Q",
+        "photoUrl": "https://photos.app.goo.gl/AEhj9FkBgyAXabsx8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>竜ケ崎</td><td>0</td><td>0</td><td>4</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>1</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>2×</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20241124vs竜ケ崎@三浦学苑G/IMG_4386.jpg",
+            "20241124vs竜ケ崎@三浦学苑G/IMG_4385.jpg"
+        ]
+    },
+    {
+        "id": "game_067",
+        "date": "2024/11/23 12:30 (JST)",
+        "opponent": "瀬谷シニア",
+        "venue": "横浜泉SG",
+        "tournament": "横浜湘南交流戦2024",
+        "gameName": "横浜湘南交流戦①",
+        "type": "公式戦",
+        "result": "draw",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 0,
+        "pitchers": "41飯田",
+        "players": "41中村, 41井上, 41入江, 41千野, 41山本, 41春日, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/KBO0YcQjD34",
+        "photoUrl": "https://photos.app.goo.gl/TaUfXxGhD53sWfYA6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>瀬谷</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2×</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20241123vs瀬谷@横浜泉SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_241123_1.jpg"
+        ]
+    },
+    {
+        "id": "game_068",
+        "date": "2024/11/17 11:00 (JST)",
+        "opponent": "千葉緑シニア",
+        "venue": "千葉緑SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 4,
+        "oppScore": 1,
+        "pitchers": "41出口, 41春日, 41松川, 41酒井",
+        "players": "41中村, 41井上, 41入江, 41出口, 41千野, 41山内, 41山本, 41春日, 41松川, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島",
+        "videoUrl": "https://youtu.be/NsbRG99PRME",
+        "photoUrl": "https://photos.app.goo.gl/RKMeVTJaNFDjcq6X7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>4</strong></td></tr><tr><td>千葉緑</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20241117vs千葉緑②@千葉緑SG/B149ED87-0FF1-4A88-96EF-74B46AB8CF70_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_069",
+        "date": "2024/11/17 9:00 (JST)",
+        "opponent": "千葉緑シニア",
+        "venue": "千葉緑SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 7,
+        "oppScore": 0,
+        "pitchers": "41田村, 41福田, 41飯田",
+        "players": "41中村, 41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41田村, 41福田, 41遠井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/RRZqD8qxETsN3TCF6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉緑</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>1</td><td>2</td><td>1</td><td>0</td><td>0</td><td>3</td><td>?</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20241117vs千葉緑①@千葉緑SG/5950D8AD-02F2-4B26-A7F1-EC424A924A2D_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_070",
+        "date": "2024/10/13 11:30 (JST)",
+        "opponent": "東練馬シニア",
+        "venue": "東練馬SG",
+        "tournament": "関東連盟秋季大会2024",
+        "gameName": "関東連盟秋季大会/１回戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 6,
+        "pitchers": "41春日, 41田村, 41福田, 41飯田",
+        "players": "41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41金子, 41飯島, 41飯田, 42山口翔, 42近藤",
+        "videoUrl": "https://youtu.be/4TPnUWsoLnk",
+        "photoUrl": "https://photos.app.goo.gl/gXKffqnL8s1HXh2MA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>東練馬武蔵</td><td>1</td><td>0</td><td>2</td><td>0</td><td>0</td><td>3</td><td>0</td><td><strong>6</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20241013vs東練馬武蔵@東練馬SG/IMG_1347.jpeg",
+            "20241013vs東練馬武蔵@東練馬SG/IMG_1348.jpeg"
+        ]
+    },
+    {
+        "id": "game_071",
+        "date": "2024/10/06 13:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 6,
+        "pitchers": "41春日, 41福田",
+        "players": "41三浦, 41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 42山口翔, 42横尾, 42近藤",
+        "videoUrl": "https://youtu.be/Oqy_erDmcZo",
+        "photoUrl": "https://photos.app.goo.gl/eh3u4Hj56M4bNPWUA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉市</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>0</td><td>2</td><td>2</td><td>0</td><td>0</td><td>2</td><td>×</td><td><strong>6</strong></td></tr></tbody></table>",
+        "images": [
+            "20241006vs千葉市③@千葉北SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_241006_1.jpg",
+            "20241006vs千葉市③@千葉北SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_241006_2.jpg"
+        ]
+    },
+    {
+        "id": "game_072",
+        "date": "2024/10/06 11:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 4,
+        "oppScore": 5,
+        "pitchers": "41出口, 41松川, 41田村, 41酒井",
+        "players": "41中村, 41井上, 41千野, 41松川, 41田村, 41石上, 41酒井, 41飯島, 42大滝, 42山口翔, 42横尾, 42近藤",
+        "videoUrl": "https://youtu.be/bPcoYWgxVL8",
+        "photoUrl": "https://photos.app.goo.gl/r9iQoko35kwXLhK8A",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>0</td><td>1</td><td>2</td><td>0</td><td>0</td><td><strong>4</strong></td></tr><tr><td>千葉市</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>3×</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20241006vs千葉市②@千葉北SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_241006_3.jpg",
+            "20241006vs千葉市②@千葉北SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_241006_4.jpg"
+        ]
+    },
+    {
+        "id": "game_073",
+        "date": "2024/10/06 9:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 3,
+        "pitchers": "41出口, 41飯田",
+        "players": "41三浦, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41遠井, 41酒井, 41飯田",
+        "videoUrl": "https://youtu.be/V7stXCL4CXU",
+        "photoUrl": "https://photos.app.goo.gl/WmSidJyobhPL5jtp9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉市</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20241006vs千葉市①@千葉北SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_241006_5.jpg",
+            "20241006vs千葉市①@千葉北SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_241006_6.jpg"
+        ]
+    },
+    {
+        "id": "game_074",
+        "date": "2024/09/29 14:00 (JST)",
+        "opponent": "浦安シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 11,
+        "oppScore": 5,
+        "pitchers": "41福田, 41飯田",
+        "players": "41三浦, 41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯田, 42山口翔, 42横尾",
+        "videoUrl": "https://youtu.be/yIRiZfWmU0M",
+        "photoUrl": "https://photos.app.goo.gl/PSpwWv9SfTiVYR5MA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>2</td><td>4</td><td>3</td><td>0</td><td>0</td><td>2</td><td><strong>11</strong></td></tr><tr><td>浦安</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>4</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20240929vs浦安@千葉北SG/20240929_u1.jpg",
+            "20240929vs浦安@千葉北SG/20290929_u2.jpg"
+        ]
+    },
+    {
+        "id": "game_075",
+        "date": "2024/09/29 9:00 (JST)",
+        "opponent": "中本牧シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 8,
+        "pitchers": "41三浦, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41遠井, 41金子, 41飯田",
+        "videoUrl": "https://youtu.be/NJkUjhz8_D4",
+        "photoUrl": "https://photos.app.goo.gl/ohqKe4dbLvLMaCjXA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>中本牧</td><td>4</td><td>3</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>8</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>2</td><td>2</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20240929vs中本牧@千葉北SG/20240929_n1.jpg",
+            "20240929vs中本牧@千葉北SG/20240929_n2.jpg"
+        ]
+    },
+    {
+        "id": "game_076",
+        "date": "2024/09/23 10:00 (JST)",
+        "opponent": "鎌ヶ谷シニア",
+        "venue": "千葉北SG",
+        "tournament": "東関東支部秋季大会2024",
+        "gameName": "東関東秋季大会/順位決定戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 2,
+        "pitchers": "41三浦, 41福田, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41山本, 41春日, 41松浦, 41田村, 41石上, 41福田, 41酒井, 41金子, 41飯田, 42横尾, 42近藤",
+        "videoUrl": "https://youtu.be/IO9ct2Pfc-Y",
+        "photoUrl": "https://photos.app.goo.gl/9zFNMamNUyjPgUwV8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>鎌ヶ谷</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>1×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20240923vs鎌ヶ谷@千葉北SG/IMG_3805.jpeg",
+            "20240923vs鎌ヶ谷@千葉北SG/IMG_3806.jpeg"
+        ]
+    },
+    {
+        "id": "game_077",
+        "date": "2024/09/22 9:00 (JST)",
+        "opponent": "八千代中央シニア",
+        "venue": "千葉北SG",
+        "tournament": "東関東支部秋季大会2024",
+        "gameName": "東関東秋季大会/準々決勝",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 3,
+        "pitchers": "41三浦, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/LLt3nAK06tE",
+        "photoUrl": "https://photos.app.goo.gl/bdEHUfki5H83KrTJA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>八千代中央</td><td>2</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20240922vs八千代中央@千葉北SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_240922_1.jpg",
+            "20240922vs八千代中央@千葉北SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_240922_2.jpg"
+        ]
+    },
+    {
+        "id": "game_078",
+        "date": "2024/09/16 9:00 (JST)",
+        "opponent": "千葉市Winnersシニア",
+        "venue": "千葉北SG",
+        "tournament": "東関東支部秋季大会2024",
+        "gameName": "東関東秋季大会/３回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 8,
+        "oppScore": 4,
+        "pitchers": "41三浦, 41福田, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯田",
+        "videoUrl": "https://youtu.be/KWIJDJ2sQJ8",
+        "photoUrl": "https://photos.app.goo.gl/BwkLPQXCab4UwyPS6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>2</td><td>1</td><td>2</td><td>3</td><td>0</td><td><strong>8</strong></td></tr><tr><td>千葉市W</td><td>1</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20240916vs千葉市W@千葉北SG/44B764C9-717D-492F-861E-330D8A84E2F7_1_201_a.jpeg",
+            "20240916vs千葉市W@千葉北SG/33002923-3E88-4B70-9611-CAD716D4F92A_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_079",
+        "date": "2024/09/15 9:00 (JST)",
+        "opponent": "竜ケ崎シニア",
+        "venue": "千葉北SG",
+        "tournament": "東関東支部秋季大会2024",
+        "gameName": "東関東秋季大会/２回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 12,
+        "oppScore": 6,
+        "pitchers": "41三浦, 41福田, 41酒井, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/Oq0tPg6RT6A",
+        "photoUrl": "https://photos.app.goo.gl/UvuZR7fXNqUPTdzB8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>3</td><td>0</td><td>5</td><td>0</td><td>4</td><td>0</td><td><strong>12</strong></td></tr><tr><td>竜ケ崎</td><td>0</td><td>0</td><td>6</td><td>0</td><td>0</td><td>0</td><td><strong>6</strong></td></tr></tbody></table>",
+        "images": [
+            "20240915vs竜ケ崎@千葉北SG/85FA92F0-6922-45F8-ACFE-A570CD6D481B_1_201_a.jpeg",
+            "20240915vs竜ケ崎@千葉北SG/9F2C09C1-C1C5-4B41-B5A4-70C770D0CC53_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_080",
+        "date": "2024/09/08 13:00 (JST)",
+        "opponent": "取手シニア",
+        "venue": "取手SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 13,
+        "pitchers": "41春日, 41福田, 41飯田",
+        "players": "41井上, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41金子, 41飯田, 42大滝",
+        "videoUrl": "https://youtu.be/bTKL4NvMbwU",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>合計</th></tr></thead><tbody><tr><td>取手</td><td>3</td><td>0</td><td>1</td><td>6</td><td>0</td><td>3</td><td><strong>13</strong></td></tr><tr><td>千葉北</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20240908vs取手③@取手SG/C3DC31BE-6D2F-4FC5-B17E-8C86E0E689C1_1_201_a.jpeg",
+            "20240908vs取手③@取手SG/67E9C6D0-7876-4671-BF1E-38D47E763471_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_081",
+        "date": "2024/09/08 11:00 (JST)",
+        "opponent": "取手シニア",
+        "venue": "取手SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 5,
+        "pitchers": "41出口, 41酒井",
+        "players": "41中村, 41出口, 41千野, 41山内, 41酒井, 42大滝, 42山口翔, 42横尾, 42近藤",
+        "videoUrl": "https://youtu.be/8Vu3spH5ycE",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>2</strong></td></tr><tr><td>取手</td><td>3</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20240908vs取手②@取手SG/55A12125-8F49-4457-91D1-3C611225BBBB_1_201_a.jpeg",
+            "20240908vs取手②@取手SG/39D2BD59-E5EE-4209-8F95-B728B1F3D23B_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_082",
+        "date": "2024/09/08 9:00 (JST)",
+        "opponent": "取手シニア",
+        "venue": "取手SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 14,
+        "pitchers": "41春日, 41田村, 41福田, 41飯田",
+        "players": "41井上, 41入江, 41山内, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/5v-S-j9gpks",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>合計</th></tr></thead><tbody><tr><td>取手</td><td>0</td><td>1</td><td>3</td><td>2</td><td>3</td><td>5</td><td><strong>14</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20240908vs取手①@取手SG/635F4DC8-0B1D-492D-A7A9-DBB575ABE2E4_1_201_a.jpeg",
+            "20240908vs取手①@取手SG/E23A9F8B-8841-4866-AD19-94C124228CE4_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_083",
+        "date": "2024/08/25 13:00 (JST)",
+        "opponent": "京葉",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 7,
+        "pitchers": "41三浦, 41春日, 41田村, 41福田",
+        "players": "41三浦, 41井上, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 42大滝, 42山口翔, 42横尾",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/ojR9ho2hvxape5PC7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>京葉B</td><td>4</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20240825vs京葉B③@千葉北SG/A3B370EC-0DF4-4565-AD7C-262AB7D9C985_1_105_c.jpeg"
+        ]
+    },
+    {
+        "id": "game_084",
+        "date": "2024/08/25 11:00 (JST)",
+        "opponent": "京葉",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 1,
+        "oppScore": 9,
+        "pitchers": "41出口, 41春日",
+        "players": "41中村, 41入江, 41出口, 41千野, 41春日, 41石上, 41酒井, 41飯島, 42大滝, 42山口翔, 42横尾, 42近藤",
+        "videoUrl": "https://youtu.be/M4JLmkdGZhI",
+        "photoUrl": "https://photos.app.goo.gl/7Z2NKHsSB3oHH72K8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>合計</th></tr></thead><tbody><tr><td>京葉B</td><td>7</td><td>0</td><td>2</td><td>0</td><td>0</td><td><strong>9</strong></td></tr><tr><td>千葉北</td><td>0</td><td>1</td><td>0</td><td>0</td><td>?</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20240825vs京葉B②@千葉北SG/7537E12A-EE0F-4E51-9FB3-8530D19ABC79_1_105_c.jpeg"
+        ]
+    },
+    {
+        "id": "game_085",
+        "date": "2024/08/25 9:00 (JST)",
+        "opponent": "京葉",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 1,
+        "oppScore": 9,
+        "pitchers": "41飯田",
+        "players": "41三浦, 41井上, 41入江, 41山内, 41春日, 41松浦, 41田村, 41遠井, 41金子, 41飯田, 42山口翔",
+        "videoUrl": "https://youtu.be/iMXFZrWEjsk",
+        "photoUrl": "https://photos.app.goo.gl/k7HHqUQcEc3FnDLB6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>1</strong></td></tr><tr><td>京葉B</td><td>1</td><td>0</td><td>3</td><td>5</td><td>?</td><td><strong>9</strong></td></tr></tbody></table>",
+        "images": [
+            "20240825vs京葉B①@千葉北SG/46BEA8F2-C5E3-4378-B6C0-FE0FE0F31F5A_1_201_a.jpeg"
+        ]
+    },
+    {
+        "id": "game_086",
+        "date": "2024/08/18 14:00 (JST)",
+        "opponent": "竜ケ崎シニア",
+        "venue": "竜ケ崎KKグラウンド",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 6,
+        "oppScore": 0,
+        "pitchers": "41出口, 41春日, 41福田",
+        "players": "41中村, 41出口, 41千野, 41山内, 41春日, 41石上, 41福田, 41遠井, 41酒井, 41飯島, 42大滝, 42山口翔, 42横尾, 42近藤",
+        "videoUrl": "https://youtu.be/6E6Oo7y3xG4",
+        "photoUrl": "https://photos.app.goo.gl/JYuBNRs1WeRCHMB27",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>竜ケ崎</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>1</td><td>0</td><td>3</td><td>2</td><td>0</td><td>?</td><td><strong>6</strong></td></tr></tbody></table>",
+        "images": [
+            "20240818vs竜ケ崎@竜ケ崎KKグラウンド/9F367C80-F842-4B09-8F2A-D63BF73C5309_1_105_c.jpeg",
+            "20240818vs竜ケ崎@竜ケ崎KKグラウンド/C0C6A5B5-E43A-4E72-A659-3E005C6008D1_1_105_c.jpeg"
+        ]
+    },
+    {
+        "id": "game_087",
+        "date": "2024/08/18 11:00 (JST)",
+        "opponent": "熊谷シニア",
+        "venue": "竜ケ崎KKグラウンド",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 0,
+        "pitchers": "41田村, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41山本, 41春日, 41松浦, 41田村, 41遠井, 41酒井, 41金子, 41飯田",
+        "videoUrl": "https://youtu.be/RjAi1szCCYs",
+        "photoUrl": "https://photos.app.goo.gl/3q92QE3GaX13QGR27",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>熊谷</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20240818vs熊谷@竜ケ崎KKグラウンド/CDF7A028-589A-4CCD-BD86-C719C95DC125_1_105_c.jpeg",
+            "20240818vs熊谷@竜ケ崎KKグラウンド/082F456B-E6A3-4855-AC8F-8DF6146EC451_1_105_c.jpeg"
+        ]
+    },
+    {
+        "id": "game_088",
+        "date": "2024/08/11 13:00 (JST)",
+        "opponent": "横浜都筑シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 10,
+        "oppScore": 7,
+        "pitchers": "41春日, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41千野, 41山内, 41春日, 41松浦, 41田村, 41遠井, 41金子, 41飯田, 42大滝, 42山口翔, 42横尾",
+        "videoUrl": "https://youtu.be/6LoBGOC6vXk",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>5</td><td>3</td><td><strong>10</strong></td></tr><tr><td>横浜都築</td><td>0</td><td>4</td><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20240811vs横浜都築③@千葉北SG/650952A7-5E05-4CB9-A5F7-5917E3DCF454_1_105_c.jpeg",
+            "20240811vs横浜都築③@千葉北SG/4021ED11-6739-49C6-84AB-33220350D056_1_105_c.jpeg"
+        ]
+    },
+    {
+        "id": "game_089",
+        "date": "2024/08/11 11:00 (JST)",
+        "opponent": "横浜都筑シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 1,
+        "pitchers": "41出口",
+        "players": "41中村, 41出口, 41千野, 41山内, 42大滝, 42山口翔, 42横尾, 42近藤, 42黒岩",
+        "videoUrl": "https://youtu.be/43ctOjXhgo4",
+        "photoUrl": "https://photos.app.goo.gl/rgN9hoMNtuigvWAL6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>横浜都築</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>?</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20240811vs横浜都築②@千葉北SG/347865A2-7BF5-4322-878C-594D7B5A5EA1_1_105_c.jpeg",
+            "20240811vs横浜都築②@千葉北SG/B11E7425-BC06-489F-B2C0-E6923F1D157B_1_105_c.jpeg"
+        ]
+    },
+    {
+        "id": "game_090",
+        "date": "2024/08/11 9:00 (JST)",
+        "opponent": "横浜都筑シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 7,
+        "pitchers": "41田村, 41福田",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41金子, 42大滝, 42横尾",
+        "videoUrl": "https://youtu.be/vB5HPg69M04",
+        "photoUrl": "https://photos.app.goo.gl/Ca379vbwdBhnFccb6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>横浜都築</td><td>0</td><td>1</td><td>0</td><td>2</td><td>2</td><td>2</td><td>0</td><td><strong>7</strong></td></tr><tr><td>千葉北</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20240811vs横浜都築①@千葉北SG/5C9271CC-F6FB-450D-B4F9-B0E4908A2E3A_1_105_c.jpeg",
+            "20240811vs横浜都築①@千葉北SG/DB250DC0-A87D-4D06-8797-276C1A339317_1_105_c.jpeg"
+        ]
+    },
+    {
+        "id": "game_091",
+        "date": "2024/08/04 13:00 (JST)",
+        "opponent": "東京城南",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 12,
+        "pitchers": "41春日, 41飯田",
+        "players": "41中村, 41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島, 41飯田, 42大滝, 42西塚",
+        "videoUrl": "https://youtu.be/kouHfSXLpak",
+        "photoUrl": "https://photos.app.goo.gl/dwK2un1ZEpsEddsx8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>4</th><th>2</th><th>3</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>城南B</td><td>2</td><td>7</td><td>0</td><td>2</td><td>0</td><td>0</td><td>1</td><td><strong>12</strong></td></tr><tr><td>千葉北</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20240804vs東京城南B③@千葉北SG/IMG_3222.jpg",
+            "20240804vs東京城南B③@千葉北SG/IMG_3223.jpg"
+        ]
+    },
+    {
+        "id": "game_092",
+        "date": "2024/08/04 9:00 (JST)",
+        "opponent": "東京城南",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 6,
+        "pitchers": "41三浦, 41田村",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41山内, 41春日, 41松浦, 41田村, 41遠井, 41酒井, 41金子",
+        "videoUrl": "https://youtu.be/awZPWRF9LE0",
+        "photoUrl": "https://photos.app.goo.gl/dwK2un1ZEpsEddsx8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>城南B</td><td>2</td><td>0</td><td>3</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>6</strong></td></tr><tr><td>千葉北</td><td>2</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20240804vs東京城南B①@千葉北SG/IMG_3218.jpg",
+            "20240804vs東京城南B①@千葉北SG/IMG_3219.jpg"
+        ]
+    },
+    {
+        "id": "game_093",
+        "date": "2024/07/20 11:00 (JST)",
+        "opponent": "佐倉シニア",
+        "venue": "佐倉SG",
+        "tournament": "千葉日報杯新人大会2024",
+        "gameName": "千葉日報杯新人大会/決勝",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 5,
+        "oppScore": 8,
+        "pitchers": "41三浦, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41酒井, 41金子, 41飯田",
+        "videoUrl": "https://youtu.be/blq2iny8DnM",
+        "photoUrl": "https://photos.app.goo.gl/yvK1eKtx7ECVLgrM7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>佐倉</td><td>0</td><td>2</td><td>4</td><td>0</td><td>0</td><td>0</td><td>2</td><td><strong>8</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>5</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20240720vs佐倉@佐倉SG/Untitled.png"
+        ]
+    },
+    {
+        "id": "game_094",
+        "date": "2024/07/15 9:55 (JST)",
+        "opponent": "横浜泉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 10,
+        "oppScore": 7,
+        "pitchers": "41三浦, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41遠井, 41酒井, 41金子, 41飯島, 41飯田, 42大滝",
+        "videoUrl": "https://youtu.be/YhzRwX9hyus",
+        "photoUrl": "https://photos.app.goo.gl/CLY2KZf8nsfpwDQ6A",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>1</td><td>0</td><td>2</td><td>7</td><td>0</td><td><strong>10</strong></td></tr><tr><td>横浜泉</td><td>3</td><td>2</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20240715vs横浜泉②@千葉北SG/IMG_3094.jpeg"
+        ]
+    },
+    {
+        "id": "game_095",
+        "date": "2024/07/15 8:15 (JST)",
+        "opponent": "横浜泉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 3,
+        "oppScore": 5,
+        "pitchers": "41福田, 41飯田",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田, 42大滝, 42横尾",
+        "videoUrl": "https://youtu.be/UM-1iYjzF4o",
+        "photoUrl": "https://photos.app.goo.gl/e82Hb6KeSmwQkL8F7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>1</td><td>0</td><td><strong>3</strong></td></tr><tr><td>横浜泉</td><td>0</td><td>1</td><td>2</td><td>1</td><td>1</td><td>0</td><td>×</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20240715vs横浜泉①@千葉北SG/IMG_3092.jpeg"
+        ]
+    },
+    {
+        "id": "game_096",
+        "date": "2024/07/07 11:00 (JST)",
+        "opponent": "成田シニア",
+        "venue": "佐倉SG",
+        "tournament": "千葉日報杯新人大会2024",
+        "gameName": "千葉日報杯新人大会/準決勝",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 7,
+        "oppScore": 6,
+        "pitchers": "41三浦, 41福田, 41飯田",
+        "players": "41三浦, 41井上, 41今村, 41入江, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯田",
+        "videoUrl": "https://youtu.be/rPZMbS-4xnQ",
+        "photoUrl": "https://photos.app.goo.gl/v1Vrtb5Da75obTpA7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>成田</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>3</td><td>1</td><td><strong>6</strong></td></tr><tr><td>千葉北</td><td>2</td><td>0</td><td>3</td><td>1</td><td>0</td><td>1</td><td>×</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20240707vs成田@佐倉SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_240707_1.jpg",
+            "20240707vs成田@佐倉SG/LINE_ALBUM_%E3%82%B9%E3%82%B3%E3%82%A2_240707_2.jpg"
+        ]
+    },
+    {
+        "id": "game_097",
+        "date": "2024/06/30 9:00 (JST)",
+        "opponent": "市川京葉シニア",
+        "venue": "千葉北SG",
+        "tournament": "千葉日報杯新人大会2024",
+        "gameName": "千葉日報杯新人大会/準々決勝",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 5,
+        "oppScore": 0,
+        "pitchers": "41三浦, 41福田, 41飯田",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41千野, 41山内, 41春日, 41松浦, 41田村, 41福田, 41遠井, 41酒井, 41金子, 41飯田, 42横尾",
+        "videoUrl": "https://youtu.be/Cy-purZi2d8",
+        "photoUrl": "https://photos.app.goo.gl/9m6zLqki5o9LVM4y7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>市川京葉</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>1</td><td>2</td><td>1</td><td>1</td><td>0</td><td>0</td><td>×</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20240630vs市川京葉@千葉北SG/IMG_2954.jpeg",
+            "20240630vs市川京葉@千葉北SG/IMG_2954 1.jpeg"
+        ]
+    },
+    {
+        "id": "game_098",
+        "date": "2024/06/16 11:00 (JST)",
+        "opponent": "八千代中央Victory",
+        "venue": "千葉北SG",
+        "tournament": "千葉日報杯新人大会2024",
+        "gameName": "千葉日報杯新人大会/２回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 0,
+        "pitchers": "41三浦, 41飯田",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41春日, 41松浦, 41田村, 41酒井, 41金子, 41飯田",
+        "videoUrl": "https://youtu.be/fKI2efVOFO0",
+        "photoUrl": "https://photos.app.goo.gl/z5E1Y3CG4tKCi2D67",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>八千代中央V</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>1</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20240616vs八千代中央Victory@千葉北SG/IMG_2856.jpeg",
+            "20240616vs八千代中央Victory@千葉北SG/IMG_2857.jpeg"
+        ]
+    },
+    {
+        "id": "game_099",
+        "date": "2024/06/09 9:00 (JST)",
+        "opponent": "鎌ケ谷シニア",
+        "venue": "千葉北SG",
+        "tournament": "千葉日報杯新人大会2024",
+        "gameName": "千葉日報杯新人大会/１回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 2,
+        "pitchers": "41三浦, 41福田, 41飯田",
+        "players": "41三浦, 41井上, 41入江, 41千野, 41山内, 41山本, 41春日, 41松浦, 41田村, 41福田, 41酒井, 41金子, 41飯田",
+        "videoUrl": "https://youtu.be/GXdGLj3zHBs",
+        "photoUrl": "https://photos.app.goo.gl/kDKNeKduVYo4i6Lc7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>鎌ヶ谷</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>0</td><td>1</td><td>3</td><td>0</td><td>0</td><td>0</td><td>×</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20240609vs鎌ヶ谷@千葉北G/IMG_2788.jpeg",
+            "20240609vs鎌ヶ谷@千葉北G/IMG_2789.jpeg"
+        ]
+    },
+    {
+        "id": "game_100",
+        "date": "2024/05/04 11:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "太陽の丘G",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 12,
+        "oppScore": 15,
+        "pitchers": "41出口, 41山本",
+        "players": "41中村, 41井上, 41出口, 41千野, 41山内, 41山本, 41田村, 41福田, 41飯島, 42大滝, 42山口慶, 42山口翔, 42横尾, 42藤原, 42西村, 42近藤",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>白井中央B</td><td>9</td><td>1</td><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>15</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>2</td><td>5</td><td>0</td><td>0</td><td>5</td><td><strong>12</strong></td></tr></tbody></table>",
+        "images": [
+            "20240504vs白井中央B②@太陽の丘G/IMG_2502.jpeg",
+            "20240504vs白井中央B②@太陽の丘G/IMG_2503.jpeg"
+        ]
+    },
+    {
+        "id": "game_101",
+        "date": "2024/05/04 9:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "太陽の丘G",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 6,
+        "oppScore": 12,
+        "pitchers": "41出口, 41田村, 41飯田",
+        "players": "41中村, 41井上, 41出口, 41千野, 41山内, 41山本, 41田村, 41福田, 41飯島, 41飯田, 42山口翔, 42横尾, 42近藤",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>1</td><td>1</td><td>2</td><td>1</td><td>1</td><td>0</td><td><strong>6</strong></td></tr><tr><td>白井中央B</td><td>5</td><td>3</td><td>0</td><td>1</td><td>0</td><td>3</td><td>×</td><td><strong>12</strong></td></tr></tbody></table>",
+        "images": [
+            "20240504vs白井中央B①@太陽の丘G/IMG_2493.jpeg",
+            "20240504vs白井中央B①@太陽の丘G/IMG_2494.jpeg"
+        ]
+    },
+    {
+        "id": "game_102",
+        "date": "2024/04/29 11:00 (JST)",
+        "opponent": "大田シニア",
+        "venue": "柏SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 7,
+        "oppScore": 3,
+        "pitchers": "41田村, 41福田",
+        "players": "41中村, 41井上, 41千野, 41山内, 41田村, 41石上, 41福田, 41飯島, 42横尾, 42近藤",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>3</td><td>0</td><td>1</td><td>2</td><td>0</td><td>1</td><td><strong>7</strong></td></tr><tr><td>大田</td><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20240429vs大田@柏SG/IMG_2446.jpeg",
+            "20240429vs大田@柏SG/IMG_2445.jpeg"
+        ]
+    },
+    {
+        "id": "game_103",
+        "date": "2024/04/29 9:00 (JST)",
+        "opponent": "柏シニア",
+        "venue": "柏SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 8,
+        "oppScore": 9,
+        "pitchers": "41田村, 41飯田",
+        "players": "41中村, 41井上, 41出口, 41千野, 41山内, 41田村, 41石上, 41福田, 41飯島, 41飯田, 42横尾, 42近藤",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>柏</td><td>0</td><td>0</td><td>3</td><td>0</td><td>3</td><td>2</td><td>1</td><td><strong>9</strong></td></tr><tr><td>千葉北</td><td>3</td><td>0</td><td>1</td><td>1</td><td>3</td><td>0</td><td>0</td><td><strong>8</strong></td></tr></tbody></table>",
+        "images": [
+            "20240429vs柏@柏SG/IMG_2448.jpeg",
+            "20240429vs柏@柏SG/IMG_2447.jpeg"
+        ]
+    },
+    {
+        "id": "game_104",
+        "date": "2024/03/31 11:00 (JST)",
+        "opponent": "成田シニア",
+        "venue": "成田SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 18,
+        "oppScore": 7,
+        "pitchers": "40梅下, 40関谷, 41出口, 41飯田",
+        "players": "40梅下, 40関谷, 41中村, 41井上, 41今村, 41出口, 41千野, 41山内, 41市川, 41田村, 41福田, 41金子, 41飯島",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/MoAMo2MQpSZmSdXZA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>成田</td><td>1</td><td>4</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td><strong>7</strong></td></tr><tr><td>千葉北</td><td>5</td><td>3</td><td>0</td><td>6</td><td>3</td><td>1</td><td>×</td><td><strong>18</strong></td></tr></tbody></table>",
+        "images": [
+            "20240331vs成田②@成田SG/IMG_2126.jpeg"
+        ]
+    },
+    {
+        "id": "game_105",
+        "date": "2024/03/31 9:00 (JST)",
+        "opponent": "成田シニア",
+        "venue": "成田SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 6,
+        "oppScore": 3,
+        "pitchers": "41福田, 41飯田",
+        "players": "41中村, 41井上, 41今村, 41千野, 41山内, 41市川, 41田村, 41石上, 41福田, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/MoAMo2MQpSZmSdXZA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td><strong>6</strong></td></tr><tr><td>成田</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20240331vs成田①@成田SG/2024-03-31_13.54.50.jpg",
+            "20240331vs成田①@成田SG/2024-03-31_13.54.59.jpg"
+        ]
+    },
+    {
+        "id": "game_106",
+        "date": "2024/02/11 13:00 (JST)",
+        "opponent": "市原",
+        "venue": "市原PG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 8,
+        "oppScore": 4,
+        "pitchers": "40関谷, 41春日, 41松川",
+        "players": "40吉原, 40田崎, 40関谷, 41中村, 41今村, 41出口, 41山内, 41山本, 41市川, 41春日, 41松川, 41石上, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/GaSopGagBPg",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>市原P</td><td>2</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>0</td><td>4</td><td>1</td><td>0</td><td>3</td><td>0</td><td>×</td><td><strong>8</strong></td></tr></tbody></table>",
+        "images": [
+            "20240211vs市原③@市原PG/IMG_1432.jpeg",
+            "20240211vs市原③@市原PG/IMG_1431.jpeg"
+        ]
+    },
+    {
+        "id": "game_107",
+        "date": "2024/02/11 11:00 (JST)",
+        "opponent": "市原",
+        "venue": "市原PG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "draw",
+        "isMyTeamFirst": true,
+        "myScore": 4,
+        "oppScore": 4,
+        "pitchers": "41出口, 41松川, 41飯田",
+        "players": "40吉原, 40川崎, 40田崎, 41中村, 41今村, 41出口, 41山内, 41山本, 41市川, 41春日, 41松川, 41石上, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/ChnGngzQCmc",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>2</td><td>1</td><td><strong>4</strong></td></tr><tr><td>市原P</td><td>3</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20240211vs市原②@市原PG/IMG_1428.jpeg",
+            "20240211vs市原②@市原PG/IMG_1427.jpeg"
+        ]
+    },
+    {
+        "id": "game_108",
+        "date": "2024/02/11 9:00 (JST)",
+        "opponent": "市原",
+        "venue": "市原PG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 7,
+        "oppScore": 1,
+        "pitchers": "40関谷, 41市川, 41飯田",
+        "players": "40吉原, 40川崎, 40田崎, 40関谷, 41山内, 41山本, 41春日, 41石上, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>市原P</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>4</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>×</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20240211vs市原①@市原PG/IMG_1430.jpeg",
+            "20240211vs市原①@市原PG/IMG_1429.jpeg"
+        ]
+    },
+    {
+        "id": "game_109",
+        "date": "2023/12/03 11:00 (JST)",
+        "opponent": "匝瑳シニア",
+        "venue": "山桑公園野球場",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 9,
+        "oppScore": 1,
+        "pitchers": "41春日, 41福田",
+        "players": "41入江, 41出口, 41千野, 41山内, 41山本, 41市川, 41春日, 41田村, 41石上, 41福田, 41篠原, 41酒井, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>匝瑳</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>4</td><td>5</td><td>0</td><td>×</td><td><strong>9</strong></td></tr></tbody></table>",
+        "images": [
+            "20231203vs匝瑳②@山桑公園野球場/IMG_0198.jpeg",
+            "20231203vs匝瑳②@山桑公園野球場/IMG_0197.jpeg"
+        ]
+    },
+    {
+        "id": "game_110",
+        "date": "2023/12/03 9:00 (JST)",
+        "opponent": "匝瑳シニア",
+        "venue": "山桑公園野球場",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 2,
+        "oppScore": 0,
+        "pitchers": "41飯田",
+        "players": "41中村, 41入江, 41千野, 41山内, 41市川, 41春日, 41福田, 41篠原, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>匝瑳</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20231203vs匝瑳①@山桑公園野球場/IMG_0199.jpeg",
+            "20231203vs匝瑳①@山桑公園野球場/IMG_0200.jpeg"
+        ]
+    },
+    {
+        "id": "game_111",
+        "date": "2023/11/26 13:00 (JST)",
+        "opponent": "佐倉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 1,
+        "oppScore": 4,
+        "pitchers": "41春日, 41福田",
+        "players": "41入江, 41千野, 41山内, 41山本, 41市川, 41春日, 41石上, 41福田, 41篠原, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/2-b_LeJspuU",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>佐倉</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>2</td><td>0</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20231126vs佐倉@千葉北G/IMG_0175.jpeg",
+            "20231126vs佐倉@千葉北G/IMG_0176.jpeg"
+        ]
+    },
+    {
+        "id": "game_112",
+        "date": "2023/11/26 9:00 (JST)",
+        "opponent": "横浜泉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 0,
+        "pitchers": "41飯田",
+        "players": "41中村, 41入江, 41千野, 41山内, 41山本, 41春日, 41石上, 41福田, 41篠原, 41酒井, 41金子, 41飯田",
+        "videoUrl": "https://youtu.be/M6zFpq71r4Q",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>横浜泉</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20231126vs横浜泉@千葉北G/IMG_0173.jpeg",
+            "20231126vs横浜泉@千葉北G/IMG_0174.jpeg"
+        ]
+    },
+    {
+        "id": "game_113",
+        "date": "2023/11/23 13:00 (JST)",
+        "opponent": "水戸シニア",
+        "venue": "千葉北SG",
+        "tournament": "フレッシュマン大会2023",
+        "gameName": "フレッシュマン大会代表戦/決勝戦",
+        "type": "公式戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 1,
+        "oppScore": 3,
+        "pitchers": "41三浦, 41田村, 41福田",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41千野, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41篠原, 41酒井, 41金子",
+        "videoUrl": "https://youtu.be/M6zFpq71r4Q?si=bSR9r1BSO0Wjl9he",
+        "photoUrl": "https://photos.app.goo.gl/spLGL2TTAxxbf8Wn8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>水戸</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20231123vs水戸@千葉北G/IMG_0166.jpeg"
+        ]
+    },
+    {
+        "id": "game_114",
+        "date": "2023/11/19 10:00 (JST)",
+        "opponent": "匝瑳シニア",
+        "venue": "山桑公園野球場",
+        "tournament": "フレッシュマン大会2023",
+        "gameName": "フレッシュマン大会代表戦/準決勝",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 3,
+        "pitchers": "41三浦, 41田村",
+        "players": "41三浦, 41井上, 41入江, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41篠原, 41酒井, 41金子",
+        "videoUrl": "https://youtu.be/CxituzNktjI",
+        "photoUrl": "https://photos.app.goo.gl/h4unHpDqP6MPCwqd9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>匝瑳</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>0</td><td>2</td><td>2</td><td>0</td><td>0</td><td>0</td><td>×</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20231119vs匝瑳@山桑公園野球場/IMG_0167.jpeg"
+        ]
+    },
+    {
+        "id": "game_115",
+        "date": "2023/11/12 12:00 (JST)",
+        "opponent": "千葉南シニア",
+        "venue": "山桑公園野球場",
+        "tournament": "フレッシュマン大会2023",
+        "gameName": "フレッシュマン大会代表戦/準々決勝",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 8,
+        "oppScore": 0,
+        "pitchers": "41三浦, 41福田, 41飯田",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41出口, 41山内, 41山本, 41市川, 41春日, 41松浦, 41田村, 41石上, 41篠原, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/gL3bh0pw-Uc",
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>2</td><td>0</td><td>4</td><td>0</td><td>0</td><td>2</td><td><strong>8</strong></td></tr><tr><td>千葉南</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20231112vs千葉南@山桑公園野球場/IMG_0096.jpeg"
+        ]
+    },
+    {
+        "id": "game_116",
+        "date": "2023/11/05 9:00 (JST)",
+        "opponent": "佐倉シニア",
+        "venue": "佐倉SG",
+        "tournament": "フレッシュマン大会2023",
+        "gameName": "フレッシュマン大会/3回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 2,
+        "pitchers": "41三浦, 41田村",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41市川, 41春日, 41松浦, 41田村, 41篠原, 41酒井, 41金子",
+        "videoUrl": "https://youtu.be/cNJC1LUm8FE",
+        "photoUrl": "https://photos.app.goo.gl/TH8Gz61UK3UCBZMBA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>佐倉</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20231105vs佐倉@佐倉SG/IMG_0084.jpg"
+        ]
+    },
+    {
+        "id": "game_117",
+        "date": "2023/10/29 9:00 (JST)",
+        "opponent": "千葉西シニア",
+        "venue": "千葉北SG",
+        "tournament": "フレッシュマン大会2023",
+        "gameName": "フレッシュマン大会/2回戦",
+        "type": "公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 5,
+        "oppScore": 1,
+        "pitchers": "41三浦, 41福田",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41千野, 41山内, 41春日, 41松浦, 41田村, 41福田, 41酒井, 41金子",
+        "videoUrl": "https://youtu.be/6Ww7SAVX7uc",
+        "photoUrl": "https://photos.app.goo.gl/8ZeFbYcHUoKG17E97",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉西A</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr><tr><td>千葉北</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>4</td><td>×</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20231029vs千葉西A@千葉北SG/IMG_4144.jpeg",
+            "20231029vs千葉西A@千葉北SG/IMG_4145.jpeg"
+        ]
+    },
+    {
+        "id": "game_118",
+        "date": "2023/10/22 10:30 (JST)",
+        "opponent": "船橋中央シニア",
+        "venue": "千葉北SG",
+        "tournament": "フレッシュマン大会2023",
+        "gameName": "フレッシュマン大会/1回戦",
+        "type": "公式戦",
+        "result": "draw",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 0,
+        "pitchers": "41三浦, 41飯田",
+        "players": "41三浦, 41中村, 41井上, 41今村, 41入江, 41千野, 41山内, 41春日, 41松浦, 41田村, 41福田, 41篠原, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/SsABhq4KUIs",
+        "photoUrl": "https://photos.app.goo.gl/EXXyoNUbDFfv4Jjo7",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>合計</th></tr></thead><tbody><tr><td>船橋中央C</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>８</td><td>２</td><td>×</td><td><strong>10</strong></td></tr></tbody></table>",
+        "images": [
+            "20231022vs船橋中央C@千葉北SG/202310022_fnchuouC_1.jpg",
+            "20231022vs船橋中央C@千葉北SG/202310022_fnchuouC_2.jpg"
+        ]
+    },
+    {
+        "id": "game_119",
+        "date": "2023/10/08 11:00 (JST)",
+        "opponent": "千葉西シニア",
+        "venue": "取手SG",
+        "tournament": "教育リーグ2023",
+        "gameName": "教育リーグ/第２戦",
+        "type": "準公式戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 6,
+        "oppScore": 3,
+        "pitchers": "41出口, 41春日, 41福田, 41金子, 41飯田",
+        "players": "41中村, 41今村, 41出口, 41千野, 41山内, 41市川, 41春日, 41石上, 41福田, 41篠原, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/QuiQzuy3Pmko8zqi9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>2</td><td>1</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>6</strong></td></tr><tr><td>千葉西</td><td>2</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20231008vs千葉西B@取手SG/20231008_chibanishiB_1.jpg",
+            "20231008vs千葉西B@取手SG/20231008_chibanishiB_2.jpg"
+        ]
+    },
+    {
+        "id": "game_120",
+        "date": "2023/10/08 9:00 (JST)",
+        "opponent": "取手ゆめみ野シニア",
+        "venue": "取手SG",
+        "tournament": "教育リーグ2023",
+        "gameName": "教育リーグ/第１戦",
+        "type": "準公式戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 0,
+        "pitchers": "41三浦, 41田村",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41山本, 41春日, 41松浦, 41田村, 41酒井, 41金子",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/iV3F35Tdfb2bFGZu6",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>取手ゆめみ野</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>4</td><td>0</td><td>0</td><td>×</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20231008vs取手ゆめみ野@取手SG/20231008_torideyumemino_1.jpg",
+            "20231008vs取手ゆめみ野@取手SG/20231008_torideyumemino_2.jpg"
+        ]
+    },
+    {
+        "id": "game_121",
+        "date": "2023/10/01 13:00 (JST)",
+        "opponent": "千葉緑シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 11,
+        "oppScore": 0,
+        "pitchers": "41出口, 41飯田",
+        "players": "41中村, 41今村, 41出口, 41千野, 41山内, 41市川, 41春日, 41石上, 41篠原, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>合計</th></tr></thead><tbody><tr><td>千葉緑</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>6</td><td>0</td><td>5</td><td>×</td><td><strong>11</strong></td></tr></tbody></table>",
+        "images": [
+            "20231001vs千葉緑@千葉北SG/20231001_2chibamidori_1.jpg",
+            "20231001vs千葉緑@千葉北SG/20231001_2chibamidori_2.jpg"
+        ]
+    },
+    {
+        "id": "game_122",
+        "date": "2023/10/01 9:00 (JST)",
+        "opponent": "東京神宮シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 2,
+        "oppScore": 1,
+        "pitchers": "41三浦, 41田村",
+        "players": "41三浦, 41中村, 41入江, 41出口, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41酒井, 41金子, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>2</strong></td></tr><tr><td>東京神宮</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20231001vs東京神宮@千葉北SG/20231001_1tjingu_1.jpg",
+            "20231001vs東京神宮@千葉北SG/20231001_1tjingu_2.jpg"
+        ]
+    },
+    {
+        "id": "game_123",
+        "date": "2023/09/24 13:00 (JST)",
+        "opponent": "柏シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 0,
+        "pitchers": "41三浦, 41田村",
+        "players": "41三浦, 41井上, 41入江, 41山内, 41山本, 41松浦, 41田村, 41酒井, 41金子",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/mLPuU5FyC9BXQ2er8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>柏</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20230924vs柏②@千葉北SG/20230924_kashiwa2_1.jpg",
+            "20230924vs柏②@千葉北SG/20230924_kashiwa2_2.jpg"
+        ]
+    },
+    {
+        "id": "game_124",
+        "date": "2023/09/24 11:00 (JST)",
+        "opponent": "柏シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 8,
+        "oppScore": 7,
+        "pitchers": "41春日, 41田村, 41金子, 41飯田",
+        "players": "40関谷, 41中村, 41井上, 41入江, 41出口, 41千野, 41山内, 41山本, 41市川, 41春日, 41松浦, 41田村, 41石上, 41篠原, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": "https://youtu.be/OEGWgZXDXdc",
+        "photoUrl": "https://photos.app.goo.gl/FGU2wfb1gQiLYNcx8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>2</td><td>0</td><td>4</td><td>0</td><td>4</td><td><strong>8</strong></td></tr><tr><td>柏</td><td>0</td><td>0</td><td>5</td><td>1</td><td>0</td><td>1</td><td>0</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20230924vs柏①@千葉北SG/20230924_kashiwa1_1.jpg",
+            "20230924vs柏①@千葉北SG/20230924_kashiwa1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_125",
+        "date": "2023/09/10 13:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 2,
+        "pitchers": "41三浦, 41田村",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41山内, 41春日, 41松浦, 41田村, 41石上, 41篠原, 41酒井, 41金子, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/E1Wp4sWkMF4wNpGT8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>白井中央B</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20230910vs白井中央ボーイズ③@千葉北SG/20230910_shiroi3_1.jpg",
+            "20230910vs白井中央ボーイズ③@千葉北SG/20230910_shiroi3_2.jpg"
+        ]
+    },
+    {
+        "id": "game_126",
+        "date": "2023/09/10 11:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 5,
+        "pitchers": "",
+        "players": "",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/E1Wp4sWkMF4wNpGT8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>白井中央</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>3</td><td><strong>5</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20230910vs白井中央ボーイズ②@千葉北SG/20230910_shiroi3_1.jpg",
+            "20230910vs白井中央ボーイズ②@千葉北SG/20230910_shiroi2_2.jpg"
+        ]
+    },
+    {
+        "id": "game_127",
+        "date": "2023/09/10 9:00 (JST)",
+        "opponent": "白井中央",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 6,
+        "oppScore": 5,
+        "pitchers": "41山本, 41福田, 41飯田",
+        "players": "41中村, 41井上, 41入江, 41山内, 41山本, 41市川, 41石上, 41福田, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/E1Wp4sWkMF4wNpGT8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td><strong>6</strong></td></tr><tr><td>白井中央B</td><td>2</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>5</strong></td></tr></tbody></table>",
+        "images": [
+            "20230910vs白井中央ボーイズ①@千葉北SG/20230910_shiroi1_1.jpg",
+            "20230910vs白井中央ボーイズ①@千葉北SG/20230910_shiroi1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_128",
+        "date": "2023/08/20 11:00 (JST)",
+        "opponent": "八千代中央シニア",
+        "venue": "八千代高校",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 9,
+        "oppScore": 10,
+        "pitchers": "41出口, 41福田, 41飯田",
+        "players": "41中村, 41井上, 41入江, 41出口, 41山内, 41山本, 41市川, 41石上, 41福田, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/ASvQLynh5VQKtWJc9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>3</td><td>5</td><td>0</td><td>1</td><td><strong>9</strong></td></tr><tr><td>八千代中央</td><td>2</td><td>0</td><td>0</td><td>0</td><td>2</td><td>5</td><td>1×</td><td><strong>10</strong></td></tr></tbody></table>",
+        "images": [
+            "20230820vs八千代中央②@八千代高校/20230820_yachiyo2_1.jpg",
+            "20230820vs八千代中央②@八千代高校/20230820_yachiyo2_2.jpg"
+        ]
+    },
+    {
+        "id": "game_129",
+        "date": "2023/08/20 9:00 (JST)",
+        "opponent": "八千代中央シニア",
+        "venue": "八千代高校",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 5,
+        "pitchers": "41出口, 41山本",
+        "players": "41中村, 41井上, 41入江, 41出口, 41山内, 41山本, 41市川, 41石上, 41福田, 41酒井, 41金子, 41飯島",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/ASvQLynh5VQKtWJc9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>八千代中央</td><td>2</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td><strong>5</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20230820vs八千代中央①@八千代高校/20230820_yachiyo1_1.jpg",
+            "20230820vs八千代中央①@八千代高校/20230820_yachiyo1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_130",
+        "date": "2023/08/13 9:00 (JST)",
+        "opponent": "東葛",
+        "venue": "東葛BG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦",
+        "type": "OP戦",
+        "result": "draw",
+        "isMyTeamFirst": false,
+        "myScore": 0,
+        "oppScore": 0,
+        "pitchers": "41飯田",
+        "players": "41中村, 41井上, 41入江, 41山内, 41石上, 41福田, 41酒井, 41金子, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/UTP8ZVY1Ath9jaJA9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>東葛B</td><td>0</td><td>0</td><td>2</td><td></td><td></td><td></td><td></td><td><strong></strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td></td><td></td><td></td><td></td><td><strong></strong></td></tr></tbody></table>",
+        "images": [
+            "20230813vs東葛ボーイズ@東葛BG/20230813_toukatsu1_1.jpg",
+            "20230813vs東葛ボーイズ@東葛BG/20230813_toukatsu1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_131",
+        "date": "2023/07/23 13:00 (JST)",
+        "opponent": "千葉西シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 13,
+        "oppScore": 7,
+        "pitchers": "41入江, 41山内, 41飯田",
+        "players": "41中村, 41井上, 41入江, 41山内, 41市川, 41福田, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>6</td><td>0</td><td>6</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>13</strong></td></tr><tr><td>千葉西</td><td>0</td><td>0</td><td>2</td><td>1</td><td>0</td><td>2</td><td>2</td><td><strong>7</strong></td></tr></tbody></table>",
+        "images": [
+            "20230723vs千葉西③@千葉北SG/20230723_nishi3_1.jpg",
+            "20230723vs千葉西③@千葉北SG/20230723_nishi3_2.jpg"
+        ]
+    },
+    {
+        "id": "game_132",
+        "date": "2023/07/23 11:00 (JST)",
+        "opponent": "千葉西シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "draw",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 4,
+        "pitchers": "41井上, 41出口",
+        "players": "41中村, 41井上, 41今村, 41出口, 41山内, 41山本, 41市川, 41石上, 41福田, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉西</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>2</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20230723vs千葉西②@千葉北SG/20230723_nishi2_1.jpg",
+            "20230723vs千葉西②@千葉北SG/20230723_nishi2_2.jpg"
+        ]
+    },
+    {
+        "id": "game_133",
+        "date": "2023/07/23 9:00 (JST)",
+        "opponent": "千葉西シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 12,
+        "oppScore": 1,
+        "pitchers": "41福田, 41飯田",
+        "players": "41中村, 41井上, 41入江, 41山内, 41市川, 41春日, 41松浦, 41福田, 41酒井, 41金子, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/Yif83vQSYG5UvCqC9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>3</td><td>0</td><td>0</td><td>4</td><td>1</td><td>4</td><td><strong>12</strong></td></tr><tr><td>千葉西</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>×</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20230723vs千葉西①@千葉北SG/20230723_nishi1_1.jpg",
+            "20230723vs千葉西①@千葉北SG/20230723_nishi1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_134",
+        "date": "2023/07/16 11:00 (JST)",
+        "opponent": "千葉緑シニア",
+        "venue": "千葉緑SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 11,
+        "oppScore": 4,
+        "pitchers": "41出口, 41福田, 41飯田",
+        "players": "41中村, 41井上, 41今村, 41入江, 41出口, 41山内, 41山本, 41市川, 41松浦, 41福田, 41篠原, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/UTP8ZVY1Ath9jaJA9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>合計</th></tr></thead><tbody><tr><td>千葉緑</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>2</td><td>0</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>3</td><td>5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>2</td><td>×</td><td><strong>11</strong></td></tr></tbody></table>",
+        "images": [
+            "20230716vs千葉緑②@千葉緑SG/20230716_midori1_1.jpg",
+            "20230716vs千葉緑②@千葉緑SG/20230716_midori1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_135",
+        "date": "2023/07/09 11:00 (JST)",
+        "opponent": "東京青山シニア",
+        "venue": "東京青山SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 13,
+        "oppScore": 7,
+        "pitchers": "41三浦, 41出口, 41飯田",
+        "players": "41三浦, 41井上, 41今村, 41入江, 41出口, 41山内, 41市川, 41春日, 41松浦, 41田村, 41石上, 41福田, 41篠原, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/UTP8ZVY1Ath9jaJA9",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>東京青山</td><td>2</td><td>0</td><td>2</td><td>3</td><td>0</td><td>0</td><td>0</td><td><strong>7</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>2</td><td>6</td><td>1</td><td>4</td><td>×</td><td><strong>13</strong></td></tr></tbody></table>",
+        "images": [
+            "20230709vs東京青山②@東京青山SG/20230709_aoyama1_1.jpg",
+            "20230709vs東京青山②@東京青山SG/20230709_aoyama1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_136",
+        "date": "2023/07/02 11:00 (JST)",
+        "opponent": "成田",
+        "venue": "北鳥羽",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 15,
+        "oppScore": 2,
+        "pitchers": "41出口, 41福田",
+        "players": "41中村, 41井上, 41今村, 41入江, 41出口, 41山内, 41市川, 41石上, 41福田, 41酒井, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/uB2qstbZ6UPvzSAZA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>成田B</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>6</td><td>1</td><td>1</td><td>3</td><td>2</td><td>2</td><td>×</td><td><strong>15</strong></td></tr></tbody></table>",
+        "images": [
+            "20230702vs成田ボーイズ②@北鳥羽/20230703_narita2_1.jpg",
+            "20230702vs成田ボーイズ②@北鳥羽/20230703_narita2_2.jpg"
+        ]
+    },
+    {
+        "id": "game_137",
+        "date": "2023/07/02 9:00 (JST)",
+        "opponent": "成田",
+        "venue": "北鳥羽",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "draw",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 3,
+        "pitchers": "41飯田",
+        "players": "41中村, 41井上, 41今村, 41入江, 41出口, 41山内, 41石上, 41福田, 41酒井, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/uB2qstbZ6UPvzSAZA",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>成田B</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20230702vs成田ボーイズ①@北鳥羽/20230703_narita1_1.jpg",
+            "20230702vs成田ボーイズ①@北鳥羽/20230703_narita1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_138",
+        "date": "2023/06/04 13:00 (JST)",
+        "opponent": "東京和泉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 15,
+        "oppScore": 1,
+        "pitchers": "40川崎, 41山内, 41飯田",
+        "players": "40川崎, 41中村, 41井上, 41入江, 41出口, 41千野, 41山内, 41山本, 41春日, 41松浦, 41石上, 41篠原, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>2</td><td>2</td><td>6</td><td>2</td><td>2</td><td><strong>15</strong></td></tr><tr><td>東京和泉</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20230604vs東京和泉③@千葉北SG/20230604_izumi3_1.jpg",
+            "20230604vs東京和泉③@千葉北SG/20230604_izumi3_2.jpg"
+        ]
+    },
+    {
+        "id": "game_139",
+        "date": "2023/06/04 11:00 (JST)",
+        "opponent": "東京和泉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 3,
+        "oppScore": 0,
+        "pitchers": "41出口, 41山本, 41飯田",
+        "players": "41中村, 41入江, 41出口, 41千野, 41山内, 41山本, 41春日, 41石上, 41篠原, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>東京和泉</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>千葉北</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>3</strong></td></tr></tbody></table>",
+        "images": [
+            "20230604vs東京和泉②@千葉北SG/20230604_izumi2_1.jpg",
+            "20230604vs東京和泉②@千葉北SG/20230604_izumi2_2.jpg"
+        ]
+    },
+    {
+        "id": "game_140",
+        "date": "2023/05/28 13:00 (JST)",
+        "opponent": "佐倉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 3,
+        "oppScore": 8,
+        "pitchers": "41山本, 41飯田",
+        "players": "41中村, 41入江, 41山内, 41山本, 41石上, 41福田, 41篠原, 41酒井, 41金子, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr><tr><td>佐倉</td><td>5</td><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>×</td><td><strong>8</strong></td></tr></tbody></table>",
+        "images": [
+            "20230528vs佐倉③@千葉北SG/20230528_sakura3_1.jpg",
+            "20230528vs佐倉③@千葉北SG/20230528_sakura3_2.jpg"
+        ]
+    },
+    {
+        "id": "game_141",
+        "date": "2023/05/28 11:00 (JST)",
+        "opponent": "佐倉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 6,
+        "oppScore": 18,
+        "pitchers": "41出口, 41飯田",
+        "players": "41中村, 41入江, 41出口, 41千野, 41山内, 41山本, 41市川, 41石上, 41篠原, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>合計</th></tr></thead><tbody><tr><td>佐倉</td><td>10</td><td>6</td><td>3</td><td><strong>18</strong></td></tr><tr><td>千葉北</td><td>1</td><td>4</td><td>1</td><td><strong>6</strong></td></tr></tbody></table>",
+        "images": [
+            "20230528vs佐倉②@千葉北SG/20230528_sakura2_1.jpg",
+            "20230528vs佐倉②@千葉北SG/20230528_sakura2_2.jpg"
+        ]
+    },
+    {
+        "id": "game_142",
+        "date": "2023/05/28 9:00 (JST)",
+        "opponent": "佐倉シニア",
+        "venue": "千葉北SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 0,
+        "oppScore": 6,
+        "pitchers": "41出口, 41飯田",
+        "players": "41中村, 41入江, 41出口, 41山内, 41山本, 41市川, 41石上, 41篠原, 41金子, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr><tr><td>佐倉</td><td>1</td><td>0</td><td>1</td><td>0</td><td>2</td><td>2</td><td>×</td><td><strong>6</strong></td></tr></tbody></table>",
+        "images": [
+            "20230528vs佐倉①@千葉北SG/20230528_sakura1_1.jpg",
+            "20230528vs佐倉①@千葉北SG/20230528_sakura1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_143",
+        "date": "2023/05/21 13:00 (JST)",
+        "opponent": "千葉緑シニア",
+        "venue": "千葉緑SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": true,
+        "myScore": 4,
+        "oppScore": 6,
+        "pitchers": "41出口, 41山本, 41松川, 41福田",
+        "players": "41中村, 41井上, 41入江, 41出口, 41山内, 41山本, 41市川, 41春日, 41松川, 41石上, 41篠原, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/BdBQ8q1QBVEXeHFr5",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉緑</td><td>0</td><td>0</td><td>0</td><td>2</td><td>1</td><td>0</td><td>1</td><td><strong>4</strong></td></tr><tr><td>千葉北</td><td>0</td><td>1</td><td>1</td><td>1</td><td>3</td><td>0</td><td>×</td><td><strong>6</strong></td></tr></tbody></table>",
+        "images": [
+            "20230521vs千葉緑③@千葉緑SG/20230521_midori3_1.jpg",
+            "20230521vs千葉緑③@千葉緑SG/20230521_midori3_2.jpg"
+        ]
+    },
+    {
+        "id": "game_144",
+        "date": "2023/05/21 11:00 (JST)",
+        "opponent": "千葉緑シニア",
+        "venue": "千葉緑SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 19,
+        "oppScore": 1,
+        "pitchers": "41飯田",
+        "players": "41中村, 41井上, 41今村, 41山本, 41春日, 41石上, 41篠原, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/BdBQ8q1QBVEXeHFr5",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>5</td><td>8</td><td>0</td><td>6</td><td><strong>19</strong></td></tr><tr><td>千葉緑</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>1</strong></td></tr></tbody></table>",
+        "images": [
+            "20230521vs千葉緑②@千葉緑SG/20230521_midori2_1.jpg",
+            "20230521vs千葉緑②@千葉緑SG/20230521_midori2_2.jpg"
+        ]
+    },
+    {
+        "id": "game_145",
+        "date": "2023/05/21 9:00 (JST)",
+        "opponent": "千葉緑シニア",
+        "venue": "千葉緑SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 9,
+        "oppScore": 2,
+        "pitchers": "41松川, 41福田",
+        "players": "41井上, 41入江, 41山内, 41山本, 41市川, 41春日, 41松川, 41福田, 41篠原, 41酒井",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/BdBQ8q1QBVEXeHFr5",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉緑</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>3</td><td>1</td><td>3</td><td>2</td><td>×</td><td><strong>9</strong></td></tr></tbody></table>",
+        "images": [
+            "20230521vs千葉緑①@千葉緑SG/20230521_midori1_1.jpg",
+            "20230521vs千葉緑①@千葉緑SG/20230521_midori1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_146",
+        "date": "2023/05/05 13:00 (JST)",
+        "opponent": "バッツ",
+        "venue": "バッツG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦③",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 7,
+        "oppScore": 2,
+        "pitchers": "41松川, 41福田, 41飯田",
+        "players": "41三浦, 41中村, 41井上, 41今村, 41出口, 41山内, 41山本, 41市川, 41春日, 41松川, 41田村, 41福田, 41篠原, 41酒井, 41金子, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/bqRyRy43anwDTaHY8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>4</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td><strong>7</strong></td></tr><tr><td>バッツ</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>2</strong></td></tr></tbody></table>",
+        "images": [
+            "20230505vsバッツ③@バッツG/20230505_battsu3_1.jpg",
+            "20230505vsバッツ③@バッツG/20230505_battsu3_2.jpg"
+        ]
+    },
+    {
+        "id": "game_147",
+        "date": "2023/05/05 11:00 (JST)",
+        "opponent": "バッツ",
+        "venue": "バッツG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": true,
+        "myScore": 6,
+        "oppScore": 0,
+        "pitchers": "41山本",
+        "players": "39永野, 41中村, 41今村, 41入江, 41千野, 41山内, 41山本, 41市川, 41春日, 41松浦, 41石上, 41福田, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/bqRyRy43anwDTaHY8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>合計</th></tr></thead><tbody><tr><td>千葉北</td><td>1</td><td>0</td><td>2</td><td>2</td><td>1</td><td><strong>6</strong></td></tr><tr><td>バッツ</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr></tbody></table>",
+        "images": [
+            "20230505vsバッツ②@バッツG/20230505_battsu2_1.jpg",
+            "20230505vsバッツ②@バッツG/20230505_battsu2_2.jpg"
+        ]
+    },
+    {
+        "id": "game_148",
+        "date": "2023/05/05 9:00 (JST)",
+        "opponent": "バッツ",
+        "venue": "バッツG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "loss",
+        "isMyTeamFirst": false,
+        "myScore": 6,
+        "oppScore": 9,
+        "pitchers": "39永野, 41出口",
+        "players": "39小林, 39永野, 41三浦, 41中村, 41井上, 41入江, 41出口, 41千野, 41市川, 41春日, 41松川, 41田村, 41篠原, 41酒井",
+        "videoUrl": null,
+        "photoUrl": "https://photos.app.goo.gl/bqRyRy43anwDTaHY8",
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>バッツ</td><td>0</td><td>5</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td><strong>9</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>4</td><td>0</td><td>0</td><td>1</td><td>1</td><td><strong>6</strong></td></tr></tbody></table>",
+        "images": [
+            "20230505vsバッツ①@バッツG/20230505_battsu1_1.jpg",
+            "20230505vsバッツ①@バッツG/20230505_battsu1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_149",
+        "date": "2023/05/03 11:00 (JST)",
+        "opponent": "八千代中央シニア",
+        "venue": "千葉市SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦②",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 4,
+        "oppScore": 3,
+        "pitchers": "41出口, 41山本, 41松川",
+        "players": "41三浦, 41中村, 41井上, 41入江, 41出口, 41山内, 41山本, 41市川, 41春日, 41松川, 41松浦, 41田村, 41石上, 41篠原, 41酒井, 41飯島",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>八千代中央</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1×</td><td><strong>4</strong></td></tr></tbody></table>",
+        "images": [
+            "20230503vs八千代中央@千葉市SG/20230503_yachiyo1_1.jpg",
+            "20230503vs八千代中央@千葉市SG/20230503_yachiyo1_2.jpg"
+        ]
+    },
+    {
+        "id": "game_150",
+        "date": "2023/05/03 9:00 (JST)",
+        "opponent": "千葉市シニア",
+        "venue": "千葉市SG",
+        "tournament": "41st_OP戦",
+        "gameName": "OP戦①",
+        "type": "OP戦",
+        "result": "win",
+        "isMyTeamFirst": false,
+        "myScore": 9,
+        "oppScore": 3,
+        "pitchers": "41田村, 41福田, 41飯田",
+        "players": "41三浦, 41井上, 41今村, 41入江, 41千野, 41春日, 41松浦, 41田村, 41石上, 41福田, 41篠原, 41酒井, 41金子, 41飯島, 41飯田",
+        "videoUrl": null,
+        "photoUrl": null,
+        "inningsHtml": "<table class=\"score-board\"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>合計</th></tr></thead><tbody><tr><td>千葉市</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>3</strong></td></tr><tr><td>千葉北</td><td>0</td><td>0</td><td>4</td><td>0</td><td>2</td><td>3</td><td>×</td><td><strong>9</strong></td></tr></tbody></table>",
+        "images": [
+            "20230503vs千葉市@千葉市SG/20230503_chibashi1_1.jpg",
+            "20230503vs千葉市@千葉市SG/20230503_chibashi1_2.jpg"
+        ]
+    }
+];
+        // ▲▲▲ データ挿入位置 ▲▲▲
 
         // DOM要素の取得
         const gameGrid = document.getElementById('gameGrid');
@@ -579,7 +3647,7 @@
                                     <span class="leading-relaxed">${pitcherText}</span>
                                 </div>
                                 <div class="text-xs text-gray-600 mb-1 text-left flex items-start">
-                                    <span class="bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded mr-1 font-bold text-[10px] whitespace-nowrap">選</span>
+                                    <span class="bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded mr-1 font-bold text-[10px] whitespace-nowrap">打</span>
                                     <span class="leading-relaxed line-clamp-2" title="${playerText}">${playerText}</span>
                                 </div>
                             </div>
@@ -615,13 +3683,13 @@
             imgContainer.innerHTML = ''; 
 
             if(game.images && game.images.length > 0) {
-                game.images.forEach((src, index) => {
+                game.images.forEach((src) => {
                     const wrapper = document.createElement('div');
                     wrapper.className = "relative group w-full max-w-3xl";
                     
                     const img = document.createElement('img');
-                    img.src = src;
-                    img.alt = `Scorebook ${index + 1}`;
+                    img.src = src; // 自動処理されたパス
+                    img.alt = `Scorebook`;
                     img.className = "w-full h-auto border rounded-lg shadow-md cursor-pointer hover:opacity-95 transition";
                     img.onclick = () => window.open(src, '_blank'); 
                     
@@ -642,6 +3710,8 @@
                     wrapper.appendChild(label);
                     imgContainer.appendChild(wrapper);
                 });
+            } else {
+                imgContainer.innerHTML = '<div class="text-gray-400 py-8">スコア画像はありません</div>';
             }
 
             // 表示
