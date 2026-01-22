@@ -174,13 +174,13 @@
     <script>
         /**
          * モックデータ
-         * 日付フォーマット: YYYY/MM/DD HH:mm
-         * 結果: win, loss, draw, no_game
+         * Notionエクスポートのパス構造に合わせて images を設定しています。
+         * フォルダ名はMarkdownファイル名(拡張子なし)と一致し、スペースは%20に置換します。
          */
         const gamesData = [
             {
                 id: "game005",
-                date: "2025/11/29 12:00", // 時間を追加（新しい）
+                date: "2025/11/29 12:00",
                 opponent: "松戸中央B",
                 venue: "千葉北SG",
                 tournament: "41st_OP戦",
@@ -203,7 +203,9 @@
                         </tbody>
                     </table>
                 `,
-                images: ["dummy_images/score_005.jpg"]
+                // MD: 20251129vs松戸中央B①@千葉北SG...
+                // ※画像名がMD内で確認できなかったため、フォルダパスのみ設定したダミーです
+                images: ["20251129vs松戸中央B①@千葉北SG%202bb6b02cbcee805cb629d13602e64276/ScoreBook_Placeholder.jpeg"]
             },
             {
                 id: "game004",
@@ -230,11 +232,12 @@
                         </tbody>
                     </table>
                 `,
-                images: ["dummy_images/score_004.jpg"]
+                // MD: 20251108vs八千代中央②@長生の森野球場... / IMG_2914.jpeg
+                images: ["20251108vs八千代中央②@長生の森野球場%202a86b02cbcee8094bcffd1f9f0318198/IMG_2914.jpeg"]
             },
             {
                 id: "game003",
-                date: "2025/11/08 09:00", // 時間を追加（古い）
+                date: "2025/11/08 09:00", 
                 opponent: "八千代中央",
                 venue: "長生の森野球場",
                 tournament: "41st_OP戦",
@@ -257,7 +260,8 @@
                         </tbody>
                     </table>
                 `,
-                images: ["dummy_images/score_003.jpg"]
+                // MD: 20251108vs八千代中央①@長生の森野球場... / IMG_2913.jpeg
+                images: ["20251108vs八千代中央①@長生の森野球場%202a86b02cbcee80539989cb607461a68b/IMG_2913.jpeg"]
             },
             {
                 id: "game002",
@@ -284,7 +288,8 @@
                         </tbody>
                     </table>
                 `,
-                images: [] 
+                // MD: 20251012vs千葉西@青葉の森野球場...
+                images: ["20251012vs千葉西@青葉の森野球場%2028c6b02cbcee80a083a1d9f0bcc7d7b2/ScoreBook_Placeholder.jpeg"] 
             },
             {
                 id: "game001",
@@ -311,7 +316,8 @@
                         </tbody>
                     </table>
                 `,
-                images: ["dummy_images/score_001.jpg"] 
+                // MD: 20251011vs千葉市@青葉の森野球場...
+                images: ["20251011vs千葉市@青葉の森野球場%2028c6b02cbcee80c9ab24f32ce3062190/ScoreBook_Placeholder.jpeg"] 
             },
             {
                 // ノーゲームのサンプル
@@ -619,6 +625,15 @@
                     img.alt = `Scorebook ${index + 1}`;
                     img.className = "w-full h-auto border rounded-lg shadow-md cursor-pointer hover:opacity-95 transition";
                     img.onclick = () => window.open(src, '_blank'); 
+                    
+                    // 追加: エラーハンドリング
+                    img.onerror = function() {
+                        this.style.display = 'none'; // 画像を隠す
+                        const errorMsg = document.createElement('div');
+                        errorMsg.className = "text-red-500 text-xs p-4 bg-red-50 border border-red-200 rounded text-center";
+                        errorMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i>画像が見つかりません<br><span class="text-[10px] text-gray-500 break-all">${src}</span>`;
+                        wrapper.appendChild(errorMsg);
+                    };
 
                     const label = document.createElement('div');
                     label.className = "absolute bottom-3 right-3 bg-black bg-opacity-70 text-white text-xs px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition pointer-events-none";
