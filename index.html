@@ -3,165 +3,655 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>? 41st 野球部 試合結果アーカイブ</title>
+    <title>41期生 試合結果アーカイブ</title>
+    
+    <!-- Google Fonts: Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        team: {
+                            navy: '#09294f',  // ベースカラー（公式戦など）
+                            red: '#9c3327',   // アクセント（負け、強調）
+                            gold: '#b99c56',  // アクセント（勝ち、準公式戦）
+                            gray: '#4f4c4c',  // テキスト、OP戦
+                            light: '#f3f4f6', // 背景
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
-        body { font-family: 'Noto+Sans+JP', sans-serif; }
-        .win-bg { border-top: 8px solid #ef4444; }
-        .lose-bg { border-top: 8px solid #3b82f6; }
-        .draw-bg { border-top: 8px solid #9ca3af; }
-        .score-cell { width: 30px; text-align: center; border: 1px solid #e2e8f0; font-size: 0.75rem; padding: 2px 0; }
-        .team-cell { padding: 2px 8px; font-weight: bold; font-size: 0.75rem; border: 1px solid #e2e8f0; background: #f8fafc; }
+        /* スコアボード風テーブルのデザイン */
+        .score-board {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            background-color: #fff;
+        }
+        .score-board th, .score-board td {
+            border: 1px solid #e5e7eb;
+            padding: 2px 4px;
+            text-align: center;
+        }
+        .score-board th {
+            background-color: #09294f;
+            color: white;
+            font-weight: normal;
+            font-size: 0.65rem;
+        }
+        .score-board tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        .score-board strong {
+            font-weight: 700;
+        }
+
+        /* スクロールバーのカスタマイズ（詳細モーダル用） */
+        .modal-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .modal-scroll::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+        .modal-scroll::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen pb-12">
+<body class="bg-gray-100 text-team-gray font-sans min-h-screen flex flex-col">
 
-    <header class="bg-blue-900 text-white py-8 shadow-lg mb-8">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <h1 class="text-3xl font-bold tracking-wider">41st BASEBALL ARCHIVE</h1>
-            <p class="mt-2 text-blue-200">2年間の激闘の記録</p>
+    <!-- Header -->
+    <header class="bg-team-navy text-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold tracking-wider">
+                    <i class="fa-solid fa-baseball-bat-ball text-team-gold mr-2"></i>
+                    41期生 試合結果アーカイブ
+                </h1>
+                <p class="text-xs text-gray-300 mt-1">2年間の軌跡 全150試合の記録</p>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4">
-        <div class="bg-white p-6 rounded-xl shadow-sm mb-8 flex flex-wrap gap-4 items-center">
-            <div class="flex-grow min-w-[200px]">
-                <label class="block text-xs font-bold text-gray-500 mb-1">キーワード検索</label>
-                <input type="text" id="searchInput" placeholder="対戦相手、場所..." class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        
+        <!-- Search & Filter Controls -->
+        <div class="bg-white rounded-lg shadow p-4 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Keyword Search -->
+                <div class="relative md:col-span-2">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                    </span>
+                    <input type="text" id="searchInput" placeholder="対戦相手、大会名、選手名で検索..." 
+                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-team-navy focus:ring-1 focus:ring-team-navy transition">
+                </div>
+                
+                <!-- Game Type Filter -->
+                 <div>
+                    <select id="typeFilter" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-team-navy bg-white cursor-pointer">
+                        <option value="all">全ての試合形式</option>
+                        <option value="official">公式戦</option>
+                        <option value="op">OP戦（練習試合）</option>
+                    </select>
+                </div>
             </div>
-            <div class="w-40">
-                <label class="block text-xs font-bold text-gray-500 mb-1">結果</label>
-                <select id="resultFilter" class="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none">
-                    <option value="">すべて</option>
-                    <option value="勝ち">勝ち</option>
-                    <option value="負け">負け</option>
-                    <option value="引き分け">引き分け</option>
-                </select>
-            </div>
-            <div class="pt-5 text-gray-400 text-sm">
-                <span id="matchCount">0</span> 試合表示中
+            <div class="mt-2 text-right text-sm text-gray-500">
+                表示件数: <span id="countDisplay" class="font-bold">0</span> 試合
             </div>
         </div>
 
+        <!-- Game Cards Grid -->
         <div id="gameGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            </div>
+            <!-- Cards will be injected here via JavaScript -->
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fa-regular fa-folder-open text-4xl text-gray-300 mb-2"></i>
+            <p class="text-gray-500">条件に一致する試合が見つかりませんでした。</p>
+        </div>
+
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-team-gray text-white py-6 text-center text-sm">
+        <p>&copy; 2025 41st Generation Baseball Team Archive.</p>
+    </footer>
+
+    <!-- Modal (Detail View) -->
+    <div id="gameModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-full max-w-4xl rounded-lg shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]" id="modalContent">
+            
+            <!-- Modal Header (青帯部分) -->
+            <div class="bg-team-navy text-white px-6 py-4 flex justify-between items-start shrink-0">
+                <div>
+                    <p id="modalDate" class="text-sm opacity-80 mb-1"></p>
+                    <h2 id="modalTitle" class="text-xl md:text-2xl font-bold"></h2>
+                    <p id="modalVenue" class="text-sm mt-1 flex items-center"><i class="fa-solid fa-location-dot mr-1"></i> <span></span></p>
+                </div>
+                <button id="closeModalBtn" class="text-white hover:text-team-gold transition p-2">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-6 overflow-y-auto modal-scroll grow flex flex-col items-center">
+                
+                <!-- 画像エリア -->
+                <div id="modalImagesContainer" class="flex flex-col gap-4 items-center w-full">
+                    <!-- Images will be injected here via JS -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
     <script>
-        // 抽出した10試合分のデータ
-        const gameData = [
+        /**
+         * モックデータ
+         * 日付フォーマット: YYYY/MM/DD HH:mm
+         * 結果: win, loss, draw, no_game
+         */
+        const gamesData = [
             {
-                title: "20230503vs千葉市@千葉市SG",
-                opponent: "千葉市シニア",
-                date: "2023/05/03",
-                place: "千葉市SG",
-                result: "勝ち",
-                scoreText: "3-9",
-                innings: { teams: ["相手", "千葉北"], scores: [["1","0","1","1","0","0","0","3"], ["0","0","4","0","2","3","×","9"]] },
-                video: "", photo: "",
-                imagePaths: [
-                    "20230503vs%E5%8D%83%E8%91%89%E5%B8%82@%E5%8D%83%E8%91%89%E5%B8%82SG/20230503_chibashi1_1.jpg",
-                    "20230503vs%E5%8D%83%E8%91%89%E5%B8%82@%E5%8D%83%E8%91%89%E5%B8%82SG/20230503_chibashi1_2.jpg"
-                ]
+                id: "game005",
+                date: "2025/11/29 12:00", // 時間を追加（新しい）
+                opponent: "松戸中央B",
+                venue: "千葉北SG",
+                tournament: "41st_OP戦",
+                gameName: "OP戦①",
+                type: "OP戦",
+                result: "win",
+                isMyTeamFirst: false, // 後攻
+                myScore: 4,
+                oppScore: 7,
+                pitchers: "41田村, 41福田",
+                players: "41井上, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41酒井, 41金子, 41飯島, 41飯田",
+                videoUrl: "https://youtu.be/KOEazV2EKkc",
+                photoUrl: null,
+                inningsHtml: `
+                    <table class="score-board">
+                        <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>R</th></tr></thead>
+                        <tbody>
+                            <tr><td>千葉北</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>4</strong></td></tr>
+                            <tr><td>松戸中央</td><td>0</td><td>3</td><td>1</td><td>0</td><td>2</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>7</strong></td></tr>
+                        </tbody>
+                    </table>
+                `,
+                images: ["dummy_images/score_005.jpg"]
             },
             {
-                title: "20230505vsバッツ②@バッツG",
-                opponent: "バッツ",
-                date: "2023/05/05",
-                place: "バッツG",
-                result: "勝ち",
-                scoreText: "6-0",
-                innings: { teams: ["千葉北", "相手"], scores: [["1","0","2","2","1","6"], ["0","0","0","0","0","0"]] },
-                video: "", photo: "https://photos.app.goo.gl/bqRyRy43anwDTaHY8",
-                imagePaths: ["20230505vs%E3%83%90%E3%83%83%E3%83%84%E2%91%A1@%E3%83%90%E3%83%83%E3%83%84G/20230505_battsu2_1.jpg"]
+                id: "game004",
+                date: "2025/11/08 11:30",
+                opponent: "八千代中央",
+                venue: "長生の森野球場",
+                tournament: "41st_OP戦",
+                gameName: "OP戦②",
+                type: "OP戦",
+                result: "win", 
+                isMyTeamFirst: true, // 先攻
+                myScore: 6,
+                oppScore: 1,
+                pitchers: "41飯田",
+                players: "41井上, 41出口, 41山内, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島, 41飯田",
+                videoUrl: null,
+                photoUrl: null,
+                inningsHtml: `
+                    <table class="score-board">
+                         <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>R</th></tr></thead>
+                        <tbody>
+                            <tr><td>千葉北</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>1</td><td>0</td><td>0</td><td><strong>6</strong></td></tr>
+                            <tr><td>八千代中央</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>×</td><td><strong>1</strong></td></tr>
+                        </tbody>
+                    </table>
+                `,
+                images: ["dummy_images/score_004.jpg"]
             },
             {
-                title: "20230723vs千葉西①@千葉北SG",
-                opponent: "千葉西シニア",
-                date: "2023/07/23",
-                place: "千葉北SG",
-                result: "勝ち",
-                scoreText: "12-1",
-                innings: { teams: ["千葉北", "相手"], scores: [["0","3","0","0","4","1","4","12"], ["0","0","0","0","0","1","×","1"]] },
-                video: "", photo: "https://photos.app.goo.gl/Yif83vQSYG5UvCqC9",
-                imagePaths: ["20230723vs%E5%8D%83%E8%91%89%E8%A5%BF%E2%91%A0@%E5%8D%83%E8%91%89%E5%8C%97SG/20230723_nishi1_1.jpg"]
+                id: "game003",
+                date: "2025/11/08 09:00", // 時間を追加（古い）
+                opponent: "八千代中央",
+                venue: "長生の森野球場",
+                tournament: "41st_OP戦",
+                gameName: "OP戦①",
+                type: "OP戦",
+                result: "win",
+                isMyTeamFirst: false, // 後攻
+                myScore: 5,
+                oppScore: 3,
+                pitchers: "41出口, 41福田",
+                players: "41井上, 41出口, 41山内, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯田",
+                videoUrl: null, 
+                photoUrl: null, 
+                inningsHtml: `
+                    <table class="score-board">
+                         <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>R</th></tr></thead>
+                        <tbody>
+                            <tr><td>八千代中央</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td><strong>3</strong></td></tr>
+                            <tr><td>千葉北</td><td>3</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>×</td><td><strong>5</strong></td></tr>
+                        </tbody>
+                    </table>
+                `,
+                images: ["dummy_images/score_003.jpg"]
             },
             {
-                title: "20230528vs佐倉③@千葉北SG",
-                opponent: "佐倉シニア",
-                date: "2023/05/28",
-                place: "千葉北SG",
-                result: "負け",
-                scoreText: "3-8",
-                innings: { teams: ["千葉北", "相手"], scores: [["0","0","3","0","0","0","0","3"], ["5","0","1","0","0","2","×","8"]] },
-                video: "", photo: "",
-                imagePaths: ["20230528vs%E4%BD%90%E5%80%89%E2%91%A2@%E5%8D%83%E8%91%89%E5%8C%97SG/20230528_sakura3_1.jpg"]
+                id: "game002",
+                date: "2025/10/12 14:00",
+                opponent: "千葉西",
+                venue: "青葉の森野球場",
+                tournament: "千葉市大会",
+                gameName: "決勝戦",
+                type: "公式戦",
+                result: "loss",
+                isMyTeamFirst: true, // 先攻
+                myScore: 2,
+                oppScore: 3,
+                pitchers: "41飯田",
+                players: "41井上, 41山内, 41山本, 41春日, 41松浦, 41田村, 41石上, 41遠井, 41酒井, 41金子, 41飯島",
+                videoUrl: "https://youtu.be/udiA0qn1f7k",
+                photoUrl: "https://photos.app.goo.gl/MjrXXtxg89p2Howg7",
+                inningsHtml: `
+                    <table class="score-board">
+                        <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>R</th></tr></thead>
+                        <tbody>
+                            <tr><td>千葉北</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>2</strong></td></tr>
+                            <tr><td>千葉西</td><td>2</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>×</td><td><strong>3</strong></td></tr>
+                        </tbody>
+                    </table>
+                `,
+                images: [] 
+            },
+            {
+                id: "game001",
+                date: "2025/10/11 09:00",
+                opponent: "千葉市",
+                venue: "青葉の森野球場",
+                tournament: "千葉市大会",
+                gameName: "１回戦",
+                type: "公式戦",
+                result: "win",
+                isMyTeamFirst: false, // 後攻
+                myScore: 4,
+                oppScore: 0,
+                pitchers: "41春日, 41田村, 41飯田",
+                players: "41井上, 41出口, 41山内, 41春日, 41松浦, 41田村, 41石上, 41福田, 41遠井, 41酒井, 41金子, 41飯島",
+                videoUrl: "https://youtu.be/lFjGqce8wz0",
+                photoUrl: "https://photos.app.goo.gl/bDWXBSYt1Kkr9phf9",
+                inningsHtml: `
+                    <table class="score-board">
+                        <thead><tr><th>チーム</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>R</th></tr></thead>
+                        <tbody>
+                            <tr><td>千葉市</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                            <tr><td>千葉北</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td><td>1</td><td>×</td><td><strong>4</strong></td></tr>
+                        </tbody>
+                    </table>
+                `,
+                images: ["dummy_images/score_001.jpg"] 
+            },
+            {
+                // ノーゲームのサンプル
+                id: "game000_nogame",
+                date: "2025/09/15 10:00",
+                opponent: "某チーム",
+                venue: "某球場",
+                tournament: "練習試合",
+                gameName: "OP戦",
+                type: "OP戦",
+                result: "no_game", // ノーゲーム
+                isMyTeamFirst: true, 
+                myScore: 1,
+                oppScore: 1,
+                pitchers: "41田中",
+                players: "41田中, 41鈴木",
+                videoUrl: null,
+                photoUrl: null,
+                inningsHtml: `<p class="text-xs text-center py-2">雨天により3回ノーゲーム</p>`,
+                images: []
             }
-            // ...残りの試合も同様の形式で追加可能
         ];
 
-        function renderCards() {
-            const grid = document.getElementById('gameGrid');
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const filter = document.getElementById('resultFilter').value;
+        // DOM要素の取得
+        const gameGrid = document.getElementById('gameGrid');
+        const searchInput = document.getElementById('searchInput');
+        const typeFilter = document.getElementById('typeFilter');
+        const noResults = document.getElementById('noResults');
+        const countDisplay = document.getElementById('countDisplay');
+
+        const gameModal = document.getElementById('gameModal');
+        const modalContent = document.getElementById('modalContent');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        // 日付の新しい順（降順）に並べ替え（日時で比較）
+        gamesData.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        // 初期表示
+        renderGames(gamesData);
+
+        // イベントリスナー
+        searchInput.addEventListener('input', filterGames);
+        typeFilter.addEventListener('change', filterGames);
+        closeModalBtn.addEventListener('click', closeModal);
+        gameModal.addEventListener('click', (e) => {
+            if (e.target === gameModal) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !gameModal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        /**
+         * フィルタリング処理
+         */
+        function filterGames() {
+            const keyword = searchInput.value.toLowerCase();
+            const typeValue = typeFilter.value;
+
+            const filtered = gamesData.filter(game => {
+                const matchKeyword = 
+                    game.opponent.toLowerCase().includes(keyword) || 
+                    game.venue.toLowerCase().includes(keyword) || 
+                    game.tournament.toLowerCase().includes(keyword) ||
+                    (game.players && game.players.toLowerCase().includes(keyword)) ||
+                    (game.pitchers && game.pitchers.toLowerCase().includes(keyword));
+                
+                let matchType = true;
+                if (typeValue === 'official') {
+                    matchType = !game.tournament.includes('OP戦');
+                } else if (typeValue === 'op') {
+                    matchType = game.tournament.includes('OP戦');
+                }
+                return matchKeyword && matchType;
+            });
+
+            renderGames(filtered);
+        }
+
+        /**
+         * 名前リストの整形（41を削除）
+         */
+        function formatNameList(names) {
+            if (!names) return "";
+            return names.replace(/41/g, "").replace(/,/g, "・");
+        }
+
+        /**
+         * 日付フォーマット関数 (曜日と時間を追加)
+         * 例: 2025/10/11(土) 09:00
+         */
+        function formatDateTime(dateStr) {
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr; 
+
+            const days = ['日', '月', '火', '水', '木', '金', '土'];
+            const dayName = days[d.getDay()];
             
-            const filtered = gameData.filter(g => 
-                (g.opponent.toLowerCase().includes(search) || g.place.toLowerCase().includes(search)) &&
-                (filter === "" || g.result === filter)
-            );
+            const year = d.getFullYear();
+            const month = (d.getMonth() + 1).toString().padStart(2, '0');
+            const day = d.getDate().toString().padStart(2, '0');
+            const hour = d.getHours().toString().padStart(2, '0');
+            const min = d.getMinutes().toString().padStart(2, '0');
+            
+            return `${year}/${month}/${day}(${dayName}) ${hour}:${min}`;
+        }
 
-            document.getElementById('matchCount').innerText = filtered.length;
-            grid.innerHTML = filtered.map(game => {
-                const resClass = game.result === "勝ち" ? "win-bg" : (game.result === "負け" ? "lose-bg" : "draw-bg");
-                const resLabelColor = game.result === "勝ち" ? "bg-red-100 text-red-700" : (game.result === "負け" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-700");
+        /**
+         * ゲームリストの描画
+         */
+        function renderGames(games) {
+            gameGrid.innerHTML = '';
+            countDisplay.textContent = games.length;
 
-                // イニングテーブルの生成
-                let scoreTable = '<table class="w-full border-collapse mb-4 bg-white">';
-                game.innings.teams.forEach((team, idx) => {
-                    scoreTable += `<tr><td class="team-cell w-20">${team}</td>`;
-                    game.innings.scores[idx].forEach(s => scoreTable += `<td class="score-cell">${s}</td>`);
-                    scoreTable += '</tr>';
-                });
-                scoreTable += '</table>';
+            if (games.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
 
-                // 画像リンクの生成
-                let imgs = game.imagePaths.map((p, i) => 
-                    `<a href="${p}" target="_blank" class="block bg-amber-50 text-amber-700 text-[10px] py-1 px-2 rounded border border-amber-200 hover:bg-amber-100 transition">?? スコア画像 ${i+1}</a>`
-                ).join('');
+            games.forEach(game => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-lg shadow hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer border border-gray-100 flex flex-col h-full group";
+                
+                card.onclick = () => openModal(game);
 
-                return `
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow ${resClass}">
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="text-xs font-bold text-gray-400 tracking-tighter">${game.date} | ${game.place}</span>
-                                <span class="px-2 py-1 rounded-md text-[10px] font-bold ${resLabelColor}">${game.result}</span>
+                // 勝敗カラー
+                let resultColorClass = "bg-gray-500";
+                let resultLabel = "引き分け";
+                
+                if (game.result === 'win') {
+                    resultColorClass = "bg-team-gold";
+                    resultLabel = "WIN / 勝利";
+                } else if (game.result === 'loss') {
+                    resultColorClass = "bg-team-red";
+                    resultLabel = "LOSE / 敗北";
+                } else if (game.result === 'no_game') {
+                    resultColorClass = "bg-gray-500";
+                    resultLabel = "NO GAME / 中止";
+                } else {
+                    // draw
+                    resultColorClass = "bg-gray-500";
+                    resultLabel = "DRAW / 引分";
+                }
+
+                // アイコンリンク生成
+                const videoBtn = game.videoUrl 
+                    ? `<a href="${game.videoUrl}" target="_blank" onclick="event.stopPropagation()" class="text-red-600 hover:text-red-800 transition px-2 py-1"><i class="fa-brands fa-youtube text-xl"></i></a>` 
+                    : `<span class="text-gray-300 px-2 py-1"><i class="fa-brands fa-youtube text-xl"></i></span>`;
+                
+                const photoBtn = game.photoUrl 
+                    ? `<a href="${game.photoUrl}" target="_blank" onclick="event.stopPropagation()" class="text-blue-600 hover:text-blue-800 transition px-2 py-1"><i class="fa-regular fa-image text-xl"></i></a>` 
+                    : `<span class="text-gray-300 px-2 py-1"><i class="fa-regular fa-image text-xl"></i></span>`;
+
+                // 大会種別のバッジ色
+                let typeBadgeClass = "";
+                if (game.type === "公式戦") {
+                    typeBadgeClass = "bg-team-navy text-white";
+                } else if (game.type === "準公式戦") {
+                    typeBadgeClass = "bg-team-gold text-white";
+                } else {
+                    typeBadgeClass = "bg-team-gray text-white"; 
+                }
+
+                const typeBadgeHtml = `<span class="${typeBadgeClass} text-[10px] font-bold px-2 py-1 rounded shadow-sm w-full text-center block">${game.type}</span>`;
+                const resultBadgeHtml = `<span class="${resultColorClass} text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-sm inline-block">${resultLabel}</span>`;
+
+                // 日付整形
+                const displayDate = formatDateTime(game.date);
+
+                // ヘッダー情報（フォントスタイル統一）
+                const infoStyle = "font-bold text-team-navy text-xs truncate"; // 太字・濃紺で統一
+                let gameInfo = '';
+                
+                if (game.type === "公式戦" || game.type === "準公式戦") {
+                    // 大会名 + 試合名
+                    gameInfo = `
+                        <div class="flex flex-wrap items-center gap-x-2 w-full mt-1">
+                            <span class="${infoStyle}" title="${game.tournament}">${game.tournament}</span>
+                            <span class="${infoStyle}">${game.gameName}</span>
+                        </div>`;
+                } else {
+                    // OP戦などは試合名のみ
+                    gameInfo = `
+                        <div class="flex flex-wrap items-center gap-x-2 w-full mt-1">
+                            <span class="${infoStyle}" title="${game.gameName}">${game.gameName}</span>
+                        </div>`;
+                }
+
+                // 先攻・後攻
+                let leftTeam, rightTeam, leftScore, rightScore;
+                let leftClass = "text-gray-600";
+                let rightClass = "text-gray-600";
+                
+                if (game.isMyTeamFirst) {
+                    leftTeam = "千葉北";
+                    rightTeam = game.opponent;
+                    leftScore = game.myScore;
+                    rightScore = game.oppScore;
+                    leftClass = "text-team-navy font-bold";
+                } else {
+                    leftTeam = game.opponent;
+                    rightTeam = "千葉北";
+                    leftScore = game.oppScore;
+                    rightScore = game.myScore;
+                    rightClass = "text-team-navy font-bold";
+                }
+
+                // 整形
+                const pitcherText = formatNameList(game.pitchers);
+                const playerText = formatNameList(game.players);
+
+                card.innerHTML = `
+                    <div class="h-2 ${resultColorClass}"></div>
+                    <div class="p-4 flex flex-col h-full relative">
+                        <!-- Header -->
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex flex-col items-start w-3/4 overflow-hidden pr-2">
+                                <span class="font-bold text-gray-800 text-sm">${displayDate}</span>
+                                ${gameInfo}
                             </div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-4">${game.opponent} 戦</h3>
-                            
-                            ${scoreTable}
+                            <div class="flex flex-col items-end flex-shrink-0 min-w-[3.5rem]">
+                                ${typeBadgeHtml}
+                            </div>
+                        </div>
 
-                            <div class="flex justify-between items-end mb-4">
-                                <div class="flex gap-1 flex-wrap max-w-[150px]">${imgs}</div>
-                                <div class="text-right">
-                                    <div class="text-[10px] text-gray-400 font-bold">TOTAL SCORE</div>
-                                    <div class="text-3xl font-black text-slate-800 italic">${game.scoreText}</div>
+                        <!-- Main Content -->
+                        <div class="text-center mb-2 grow flex flex-col justify-center">
+                            
+                            <!-- Score -->
+                            <div class="flex items-center justify-center gap-2 mb-1.5 font-bold">
+                                <span class="${leftClass} text-sm whitespace-nowrap truncate max-w-[80px]" title="${leftTeam}">${leftTeam}</span>
+                                <span class="text-2xl font-black font-mono tracking-wider text-team-gray bg-gray-50 px-2 py-0.5 rounded border border-gray-100">
+                                    ${leftScore} - ${rightScore}
+                                </span>
+                                <span class="${rightClass} text-sm whitespace-nowrap truncate max-w-[80px]" title="${rightTeam}">${rightTeam}</span>
+                            </div>
+
+                            <!-- Result Badge -->
+                            <div class="mb-3">
+                                ${resultBadgeHtml}
+                            </div>
+                            
+                            <!-- Innings -->
+                            <div class="w-full overflow-hidden opacity-90 mb-2">
+                                ${game.inningsHtml}
+                            </div>
+
+                            <!-- Venue -->
+                            <p class="text-xs text-gray-400 text-right flex items-center justify-end mb-2">
+                                <i class="fa-solid fa-location-dot mr-1"></i>${game.venue}
+                            </p>
+
+                            <!-- Pitchers & Players -->
+                            <div class="w-full border-t border-dashed border-gray-200 pt-2 mb-2">
+                                <div class="text-xs text-gray-600 mb-1 text-left flex items-start">
+                                    <span class="bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded mr-1 font-bold text-[10px] whitespace-nowrap">投</span>
+                                    <span class="leading-relaxed">${pitcherText}</span>
+                                </div>
+                                <div class="text-xs text-gray-600 mb-1 text-left flex items-start">
+                                    <span class="bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded mr-1 font-bold text-[10px] whitespace-nowrap">選</span>
+                                    <span class="leading-relaxed line-clamp-2" title="${playerText}">${playerText}</span>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="grid grid-cols-2 gap-2 border-t pt-4">
-                                ${game.video ? `<a href="${game.video}" target="_blank" class="bg-red-600 text-white text-center py-2 rounded-lg text-xs font-bold hover:bg-red-700 transition">YouTube動画</a>` : `<span class="bg-gray-100 text-gray-300 text-center py-2 rounded-lg text-xs font-bold">動画なし</span>`}
-                                ${game.photo ? `<a href="${game.photo}" target="_blank" class="bg-blue-600 text-white text-center py-2 rounded-lg text-xs font-bold hover:bg-blue-700 transition">Googleフォト</a>` : `<span class="bg-gray-100 text-gray-300 text-center py-2 rounded-lg text-xs font-bold">写真なし</span>`}
+                        <!-- Footer -->
+                        <div class="border-t border-gray-100 pt-2 mt-auto flex justify-between items-center text-sm">
+                            <button class="text-team-navy hover:underline font-medium text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded transition">
+                                詳細 <i class="fa-solid fa-chevron-right ml-1"></i>
+                            </button>
+                            <div class="flex items-center gap-1">
+                                ${videoBtn}
+                                ${photoBtn}
                             </div>
                         </div>
                     </div>
                 `;
-            }).join('');
+                gameGrid.appendChild(card);
+            });
         }
 
-        document.getElementById('searchInput').addEventListener('input', renderCards);
-        document.getElementById('resultFilter').addEventListener('change', renderCards);
-        renderCards();
+        /**
+         * モーダルを開く
+         */
+        function openModal(game) {
+            // ヘッダー情報セット
+            document.getElementById('modalDate').textContent = formatDateTime(game.date);
+            document.getElementById('modalTitle').textContent = `vs ${game.opponent}`;
+            document.getElementById('modalVenue').querySelector('span').textContent = game.venue;
+            
+            // 画像表示
+            const imgContainer = document.getElementById('modalImagesContainer');
+            imgContainer.innerHTML = ''; 
+
+            if(game.images && game.images.length > 0) {
+                game.images.forEach((src, index) => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = "relative group w-full max-w-3xl";
+                    
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.alt = `Scorebook ${index + 1}`;
+                    img.className = "w-full h-auto border rounded-lg shadow-md cursor-pointer hover:opacity-95 transition";
+                    img.onclick = () => window.open(src, '_blank'); 
+
+                    const label = document.createElement('div');
+                    label.className = "absolute bottom-3 right-3 bg-black bg-opacity-70 text-white text-xs px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition pointer-events-none";
+                    label.textContent = "クリックで画像を拡大";
+
+                    wrapper.appendChild(img);
+                    wrapper.appendChild(label);
+                    imgContainer.appendChild(wrapper);
+                });
+            }
+
+            // 表示
+            gameModal.classList.remove('hidden');
+            setTimeout(() => {
+                gameModal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        /**
+         * モーダルを閉じる
+         */
+        function closeModal() {
+            gameModal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                gameModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
     </script>
 </body>
 </html>
