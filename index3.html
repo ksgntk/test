@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>? 41st 野球部 試合結果アーカイブ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+        body { font-family: 'Noto+Sans+JP', sans-serif; }
+        .win-bg { border-top: 8px solid #ef4444; }
+        .lose-bg { border-top: 8px solid #3b82f6; }
+        .draw-bg { border-top: 8px solid #9ca3af; }
+        .score-cell { width: 30px; text-align: center; border: 1px solid #e2e8f0; font-size: 0.75rem; padding: 2px 0; }
+        .team-cell { padding: 2px 8px; font-weight: bold; font-size: 0.75rem; border: 1px solid #e2e8f0; background: #f8fafc; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen pb-12">
+
+    <header class="bg-blue-900 text-white py-8 shadow-lg mb-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold tracking-wider">41st BASEBALL ARCHIVE</h1>
+            <p class="mt-2 text-blue-200">2年間の激闘の記録</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4">
+        <div class="bg-white p-6 rounded-xl shadow-sm mb-8 flex flex-wrap gap-4 items-center">
+            <div class="flex-grow min-w-[200px]">
+                <label class="block text-xs font-bold text-gray-500 mb-1">キーワード検索</label>
+                <input type="text" id="searchInput" placeholder="対戦相手、場所..." class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+            <div class="w-40">
+                <label class="block text-xs font-bold text-gray-500 mb-1">結果</label>
+                <select id="resultFilter" class="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none">
+                    <option value="">すべて</option>
+                    <option value="勝ち">勝ち</option>
+                    <option value="負け">負け</option>
+                    <option value="引き分け">引き分け</option>
+                </select>
+            </div>
+            <div class="pt-5 text-gray-400 text-sm">
+                <span id="matchCount">0</span> 試合表示中
+            </div>
+        </div>
+
+        <div id="gameGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+    </main>
+
+    <script>
+        // 抽出した10試合分のデータ
+        const gameData = [
+            {
+                title: "20230503vs千葉市@千葉市SG",
+                opponent: "千葉市シニア",
+                date: "2023/05/03",
+                place: "千葉市SG",
+                result: "勝ち",
+                scoreText: "3-9",
+                innings: { teams: ["相手", "千葉北"], scores: [["1","0","1","1","0","0","0","3"], ["0","0","4","0","2","3","×","9"]] },
+                video: "", photo: "",
+                imagePaths: [
+                    "20230503vs%E5%8D%83%E8%91%89%E5%B8%82@%E5%8D%83%E8%91%89%E5%B8%82SG/20230503_chibashi1_1.jpg",
+                    "20230503vs%E5%8D%83%E8%91%89%E5%B8%82@%E5%8D%83%E8%91%89%E5%B8%82SG/20230503_chibashi1_2.jpg"
+                ]
+            },
+            {
+                title: "20230505vsバッツ②@バッツG",
+                opponent: "バッツ",
+                date: "2023/05/05",
+                place: "バッツG",
+                result: "勝ち",
+                scoreText: "6-0",
+                innings: { teams: ["千葉北", "相手"], scores: [["1","0","2","2","1","6"], ["0","0","0","0","0","0"]] },
+                video: "", photo: "https://photos.app.goo.gl/bqRyRy43anwDTaHY8",
+                imagePaths: ["20230505vs%E3%83%90%E3%83%83%E3%83%84%E2%91%A1@%E3%83%90%E3%83%83%E3%83%84G/20230505_battsu2_1.jpg"]
+            },
+            {
+                title: "20230723vs千葉西①@千葉北SG",
+                opponent: "千葉西シニア",
+                date: "2023/07/23",
+                place: "千葉北SG",
+                result: "勝ち",
+                scoreText: "12-1",
+                innings: { teams: ["千葉北", "相手"], scores: [["0","3","0","0","4","1","4","12"], ["0","0","0","0","0","1","×","1"]] },
+                video: "", photo: "https://photos.app.goo.gl/Yif83vQSYG5UvCqC9",
+                imagePaths: ["20230723vs%E5%8D%83%E8%91%89%E8%A5%BF%E2%91%A0@%E5%8D%83%E8%91%89%E5%8C%97SG/20230723_nishi1_1.jpg"]
+            },
+            {
+                title: "20230528vs佐倉③@千葉北SG",
+                opponent: "佐倉シニア",
+                date: "2023/05/28",
+                place: "千葉北SG",
+                result: "負け",
+                scoreText: "3-8",
+                innings: { teams: ["千葉北", "相手"], scores: [["0","0","3","0","0","0","0","3"], ["5","0","1","0","0","2","×","8"]] },
+                video: "", photo: "",
+                imagePaths: ["20230528vs%E4%BD%90%E5%80%89%E2%91%A2@%E5%8D%83%E8%91%89%E5%8C%97SG/20230528_sakura3_1.jpg"]
+            }
+            // ...残りの試合も同様の形式で追加可能
+        ];
+
+        function renderCards() {
+            const grid = document.getElementById('gameGrid');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const filter = document.getElementById('resultFilter').value;
+            
+            const filtered = gameData.filter(g => 
+                (g.opponent.toLowerCase().includes(search) || g.place.toLowerCase().includes(search)) &&
+                (filter === "" || g.result === filter)
+            );
+
+            document.getElementById('matchCount').innerText = filtered.length;
+            grid.innerHTML = filtered.map(game => {
+                const resClass = game.result === "勝ち" ? "win-bg" : (game.result === "負け" ? "lose-bg" : "draw-bg");
+                const resLabelColor = game.result === "勝ち" ? "bg-red-100 text-red-700" : (game.result === "負け" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-700");
+
+                // イニングテーブルの生成
+                let scoreTable = '<table class="w-full border-collapse mb-4 bg-white">';
+                game.innings.teams.forEach((team, idx) => {
+                    scoreTable += `<tr><td class="team-cell w-20">${team}</td>`;
+                    game.innings.scores[idx].forEach(s => scoreTable += `<td class="score-cell">${s}</td>`);
+                    scoreTable += '</tr>';
+                });
+                scoreTable += '</table>';
+
+                // 画像リンクの生成
+                let imgs = game.imagePaths.map((p, i) => 
+                    `<a href="${p}" target="_blank" class="block bg-amber-50 text-amber-700 text-[10px] py-1 px-2 rounded border border-amber-200 hover:bg-amber-100 transition">?? スコア画像 ${i+1}</a>`
+                ).join('');
+
+                return `
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow ${resClass}">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold text-gray-400 tracking-tighter">${game.date} | ${game.place}</span>
+                                <span class="px-2 py-1 rounded-md text-[10px] font-bold ${resLabelColor}">${game.result}</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">${game.opponent} 戦</h3>
+                            
+                            ${scoreTable}
+
+                            <div class="flex justify-between items-end mb-4">
+                                <div class="flex gap-1 flex-wrap max-w-[150px]">${imgs}</div>
+                                <div class="text-right">
+                                    <div class="text-[10px] text-gray-400 font-bold">TOTAL SCORE</div>
+                                    <div class="text-3xl font-black text-slate-800 italic">${game.scoreText}</div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 border-t pt-4">
+                                ${game.video ? `<a href="${game.video}" target="_blank" class="bg-red-600 text-white text-center py-2 rounded-lg text-xs font-bold hover:bg-red-700 transition">YouTube動画</a>` : `<span class="bg-gray-100 text-gray-300 text-center py-2 rounded-lg text-xs font-bold">動画なし</span>`}
+                                ${game.photo ? `<a href="${game.photo}" target="_blank" class="bg-blue-600 text-white text-center py-2 rounded-lg text-xs font-bold hover:bg-blue-700 transition">Googleフォト</a>` : `<span class="bg-gray-100 text-gray-300 text-center py-2 rounded-lg text-xs font-bold">写真なし</span>`}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', renderCards);
+        document.getElementById('resultFilter').addEventListener('change', renderCards);
+        renderCards();
+    </script>
+</body>
+</html>
